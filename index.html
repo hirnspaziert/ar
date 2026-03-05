@@ -33,8 +33,8 @@
   /* NAV */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 20px 48px;
+    display: flex; align-items: center;
+    padding: 20px 80px; gap: 32px;
     background: rgba(250,248,244,0.95);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid transparent;
@@ -53,7 +53,7 @@
   .nav-logo .logo-spaziert { color: var(--charcoal); /* dark for "spaziert" */ }
   /* alternative: swap colors or use --accent/--sage as desired */
   .nav-logo span { }
-  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links { display: flex; gap: 32px; list-style: none; margin-left: auto; }
   .nav-links a {
     font-family: "Roboto", sans-serif; font-size: 11px; font-weight: 400; letter-spacing: 1.5px; text-transform: uppercase;
     color: var(--charcoal); text-decoration: none; opacity: 1; transition: opacity 0.2s;
@@ -62,7 +62,7 @@
 
   /* HERO */
   #hero {
-    background: var(--sage);
+    background: var(--cream);
     min-height: 100vh; display: flex; flex-direction: column;
     align-items: center; justify-content: center; text-align: center;
     padding: 120px 24px 80px; position: relative; overflow: hidden;
@@ -91,6 +91,16 @@
     animation: fadeUp 0.8s ease 0.2s both;
   }
   .hero-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; animation: fadeUp 0.8s ease 0.3s both; }
+  .hero-meta-pills {
+    display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+    margin-top: 20px; animation: fadeUp 0.8s ease 0.4s both;
+  }
+  .hero-meta {
+    display: inline-block; font-family: "Roboto", sans-serif;
+    font-size: 11px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-light);
+    padding: 4px 16px; border-radius: 20px;
+  }
   .btn-primary {
     display: inline-block; background: var(--charcoal); color: var(--cream);
     font-family: "Roboto", sans-serif; font-size: 12px; font-weight: 400;
@@ -168,22 +178,52 @@
     .name-layout { grid-template-columns: 1fr; gap: 36px; }
   }
 
-  /* FÜR WEN */
+  /* FÜR WEN / ZIELGRUPPE */
   #fuerwen { background: var(--cream); }
-  .fuerwen-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
-  .fuerwen-quote {
-    font-family: "Roboto", sans-serif; font-size: clamp(20px, 3vw, 26px);
-    font-weight: 400; line-height: 1.5; color: var(--charcoal);
-    border-left: 2px solid var(--accent); padding-left: 28px;
+  .zielgruppe-layout {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: start;
+    padding: 16px 0;
   }
-  .fuerwen-points { display: flex; flex-direction: column; gap: 28px; padding-top: 8px; }
-  .fuerwen-point { display: flex; gap: 16px; align-items: flex-start; }
-  .fp-icon {
-    width: 36px; height: 36px; border-radius: 0; background: none;
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--charcoal);
+  .zielgruppe-quote {
+    font-family: "Lora", serif;
+    font-size: clamp(22px, 3.5vw, 32px);
+    font-weight: 400; line-height: 1.45;
+    color: var(--charcoal);
+    margin: 0; padding: 0;
+    border: none;
+    max-width: 360px;
   }
-  .fp-text .fp-title { font-family: "Roboto", sans-serif; font-weight: 600; font-size: 15px; margin-bottom: 3px; }
-  .fp-text .fp-desc { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.6; }
+  .zielgruppe-header { margin-bottom: 32px; }
+  .zielgruppe-items { display: flex; flex-direction: column; gap: 0; }
+  .zielgruppe-item {
+    display: flex; gap: 24px; align-items: flex-start;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .zielgruppe-item:first-child { border-top: 1px solid var(--border); }
+  .zielgruppe-num {
+    font-family: "Roboto", sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; color: var(--muted); min-width: 24px; padding-top: 2px;
+  }
+  .zielgruppe-icon {
+    display: flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px; flex-shrink: 0; color: var(--charcoal);
+  }
+  .zielgruppe-icon svg { width: 100%; height: 100%; transform: scale(1); }
+  .zielgruppe-icon svg path, .zielgruppe-icon svg ellipse {
+    stroke-width: 3px !important;
+  }
+  .zielgruppe-title {
+    font-family: "Roboto", sans-serif; font-size: 15px; font-weight: 600;
+    color: var(--charcoal); margin-bottom: 4px; letter-spacing: -0.2px;
+  }
+  .zielgruppe-desc {
+    font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.65;
+  }
+  @media(max-width: 700px) {
+    .zielgruppe-layout { grid-template-columns: 1fr; gap: 40px; }
+  }
 
   /* PRODUKTE */
   #produkte { background: var(--cream); padding-top: 80px; padding-bottom: 48px; }
@@ -191,6 +231,7 @@
   .produkte-grid {
     display: grid; grid-template-columns: repeat(4, 1fr);
     border: none; border-radius: 0; overflow: visible;
+    margin-left: -1.5rem;
   }
   .produkt-card {
     padding: 1.75rem 1.5rem 1.5rem;
@@ -290,7 +331,7 @@
   }
 
   /* STIL */
-  #stil { background: var(--sage); }
+  #stil { background: var(--cream); }
   .stil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
   .stil-intro { font-size: 0.9rem; font-weight: 300; color: var(--charcoal-light); line-height: 1.75; margin-bottom: 2rem; }
   .stil-items { display: flex; flex-direction: column; }
@@ -311,7 +352,7 @@
   .sample:nth-child(2):hover { transform: translateY(-4px) rotate(0.5deg); }
 
   /* FAQ */
-  #faq { background: var(--sage); }
+  #faq { background: var(--cream); }
   .faq-list { display: flex; flex-direction: column; gap: 24px; max-width: 700px; margin: 0 auto; }
   .faq-item {
     background: var(--cream); border-radius: 12px; padding: 28px;
@@ -338,7 +379,7 @@
   }
 
   /* ÜBER MICH */
-  #ueber { background: var(--sage); padding-top: 48px; }
+  #ueber { background: var(--cream); padding-top: 48px; }
   .ueber-layout { display: grid; grid-template-columns: auto 1fr; gap: 64px; align-items: center; }
   .ueber-avatar {
     width: 160px; height: 160px; border-radius: 50%; background: var(--accent-light);
@@ -354,6 +395,7 @@
   /* KONTAKT */
   #kontakt { background: var(--cream); text-align: center; padding: 80px 24px; }
   .social-links { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin: 40px 0 48px; }
+  .social-icon { display: inline-flex; width: 20px; height: 20px; flex-shrink: 0; }
   .social-link {
     display: inline-flex; align-items: center; gap: 8px; background: var(--sage);
     border: 1px solid var(--border); color: var(--charcoal); padding: 12px 22px;
@@ -361,9 +403,60 @@
     transition: background 0.2s, border-color 0.2s, color 0.2s;
   }
   .social-link:hover { background: var(--charcoal); border-color: var(--charcoal); color: white; }
-  .footer-note { font-size: 12px; color: var(--muted); }
-  .footer-note a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
-  .footer-note a:hover { color: var(--accent); }
+  /* FOOTER */
+  footer#kontakt {
+    background: var(--cream);
+    border-top: 1px solid var(--border);
+    padding: 72px 80px 0;
+    font-family: "Roboto", sans-serif;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 64px;
+    padding-bottom: 64px;
+  }
+  .footer-logo {
+    font-size: 18px; font-weight: 700; letter-spacing: -0.5px;
+    color: var(--charcoal); margin-bottom: 16px;
+  }
+  .footer-tagline {
+    font-family: "Lora", serif; font-size: 13px; font-weight: 300;
+    color: var(--muted); line-height: 1.7;
+  }
+  .footer-cols {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+  }
+  .footer-col {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .footer-col-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--charcoal); margin-bottom: 6px;
+  }
+  .footer-col a {
+    font-size: 14px; font-weight: 300; color: var(--charcoal-light);
+    text-decoration: none; transition: color 0.2s;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .footer-col a:hover { color: var(--charcoal); }
+  .footer-social-icon {
+    display: inline-flex; width: 16px; height: 16px; flex-shrink: 0; opacity: 0.6;
+  }
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding: 24px 0;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 11px; font-weight: 400; letter-spacing: 0.5px; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .footer-bottom a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+  .footer-bottom a:hover { color: var(--charcoal); }
+  @media(max-width: 800px) {
+    footer#kontakt { padding: 48px 24px 0; }
+    .footer-top { grid-template-columns: 1fr; gap: 40px; }
+    .footer-cols { grid-template-columns: repeat(2, 1fr); }
+  }
 
   /* IMPRESSUM */
   #impressum { background: var(--cream); padding: 64px 24px; }
@@ -382,27 +475,73 @@
     line-height: 1.75;
     max-width: 720px;
     margin: 0 auto;
+    text-align: center;
+    display: block;
+  }
+  .zitat-source {
+    font-family: "Roboto", sans-serif;
+    font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--muted); margin-top: 24px;
   }
 
-  /* PROZESS */
-  #prozess { background: var(--cream); }
-  .prozess-grid {
-    display: flex; flex-direction: column; gap: 6px; max-width: 360px; margin: 0 auto;
+  /* GALERIE */
+  .galerie-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 12px;
+    max-width: 1100px;
+    margin: 40px auto 0;
+    padding: 0 24px;
   }
-  .prozess-step {
-    display: flex; align-items: center; gap: 28px;
-    padding: 12px 0;
-  }
-  .prozess-icon {
-    width: 54px; height: 54px; flex-shrink: 0;
-    border: 1.5px solid var(--charcoal); border-radius: 50%;
+  .galerie-item { border-radius: 8px; overflow: hidden; }
+  .galerie-tall { grid-row: span 2; }
+  .galerie-wide { grid-column: span 2; }
+  .galerie-placeholder {
+    width: 100%; height: 100%; min-height: 220px;
+    background: var(--sage);
     display: flex; align-items: center; justify-content: center;
-    color: var(--charcoal); padding: 12px; position: relative;
+    font-family: "Roboto", sans-serif; font-size: 11px;
+    font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted);
   }
-  .prozess-icon svg { width: 100%; height: 100%; }
-  .prozess-step h3 {
-    font-family: "Roboto", sans-serif; font-size: 12px; font-weight: 700;
-    color: var(--charcoal); letter-spacing: 1.5px; text-transform: uppercase; margin: 0;
+  .galerie-tall .galerie-placeholder { min-height: 452px; }
+  .galerie-wide .galerie-placeholder { min-height: 220px; }
+  @media(max-width: 700px) {
+    .galerie-grid { grid-template-columns: 1fr 1fr; }
+    .galerie-tall { grid-row: span 1; }
+    .galerie-wide { grid-column: span 2; }
+  }
+
+
+  /* ABLAUF */
+  #prozess { background: var(--cream); }
+  .ablauf-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 40px; margin-top: 56px;
+  }
+  .ablauf-step {
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .ablauf-icon {
+    width: 48px; height: 48px; color: var(--charcoal); margin-bottom: 4px;
+  }
+  .ablauf-icon svg { width: 100%; height: 100%; }
+  .ablauf-num {
+    font-family: "Roboto", sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 2px; color: var(--muted);
+    border-top: 2px solid var(--charcoal); padding-top: 16px;
+    display: block; width: 100%;
+  }
+  .ablauf-title {
+    font-family: "Roboto", sans-serif; font-size: 17px; font-weight: 600;
+    color: var(--charcoal); letter-spacing: -0.3px; margin: 0;
+  }
+  .ablauf-desc {
+    font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.65; margin: 0;
+  }
+  @media(max-width: 700px) {
+    .ablauf-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
   }
 
   /* ANIMATIONS */
@@ -458,37 +597,48 @@
   <ul class="nav-links">
     <li><a href="#fuerwen">Für wen</a></li>
     <li><a href="#produkte">Produkte</a></li>
-    <li><a href="#ueber">Über mich</a></li>
-    <li><a href="#faq">FAQ</a></li>
-    <li><a href="#kontakt">Kontakt</a></li>
+    <li><a href="#galerie">Beispiele</a></li>
   </ul>
+  <a href="#bestellung" class="btn-primary" style="font-size:11px; padding:10px 22px;">Poster bestellen</a>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
   <div class="hero-bg"></div>
-  <div class="hero-tag">Für alle, die ihre Erinnerungen sichtbar machen wollen</div>
+  <div class="hero-tag">Persönlich · Visuell · Individuell</div>
   <h1 class="hero-h1">Deine Erinnerungen.<br>Für dich visualisiert.</h1>
   <p class="hero-sub">
-    Von den ersten Schritten deines Babys über eure gemeinsame Geschichte bis zum Familienrezept aus Omas Küche. Ich gestalte daraus personalisierte Poster, die Erinnerungen sichtbar machen.
+    Ich illustriere deine Erinnerungen als persönliches Poster.<br>Du wählst die Inhalte – ich setze sie für dich um.
   </p>
   <div class="hero-cta">
-    <a href="#produkte" class="btn-primary">Produkte entdecken</a>
-    <a href="#ueber" class="btn-secondary">Über mich</a>
+    <a href="#bestellung" class="btn-primary">Poster bestellen</a>
+  </div>
+  <div class="hero-meta-pills">
+    <span class="hero-meta">Individuell gestaltet</span>
+    <span class="hero-meta">Digitale Datei</span>
+    <span class="hero-meta">Lieferung in ca. 2 Wochen</span>
   </div>
 </section>
 
 
+<!-- ZITAT -->
+<section id="zitat">
+  <div class="section-inner" style="text-align:center;">
+    <p class="zitat-text reveal">Erinnerungen gehören nicht in Schubladen.<br>Sondern an die Wand.</p>
+    <p class="zitat-source reveal">AR Studio</p>
+  </div>
+</section>
+
 <!-- FÜR WEN -->
 <section id="fuerwen">
   <div class="section-inner">
-    <div class="features-header reveal">
+    <div class="reveal">
       <span class="section-label">Für wen</span>
       <h2 class="section-h2">Für wen sind die Poster?</h2>
     </div>
-    <div class="features-grid reveal">
-      <div class="feature-card">
-        <div class="feature-icon"><svg width="100%" height="100%" viewBox="0 0 225 231" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+    <div class="zielgruppe-items">
+      <div class="zielgruppe-item">
+        <span class="zielgruppe-icon"><svg width="100%" height="100%" viewBox="0 0 225 231" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
     <g transform="matrix(1,0,0,1,-896.079788,-1241.091902)">
         <g transform="matrix(1,0,0,1,0,-0.551181)">
             <g transform="matrix(1.810925,0,0,1.810925,-10273.322166,-3576.963247)">
@@ -554,12 +704,14 @@
             </g>
         </g>
     </g>
-</svg></div>
-        <h3 class="feature-title">Schenkende</h3>
-        <p class="feature-desc">Ein persönliches Poster als Geschenk – individuell gestaltet und unvergesslich.</p>
+</svg></span>
+        <div>
+          <div class="zielgruppe-title">Schenkende</div>
+          <div class="zielgruppe-desc">Ein persönliches Poster als Geschenk – individuell gestaltet und unvergesslich.</div>
+        </div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon"><svg width="100%" height="100%" viewBox="0 0 255 214" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+      <div class="zielgruppe-item">
+        <span class="zielgruppe-icon"><svg width="100%" height="100%" viewBox="0 0 255 214" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
     <g transform="matrix(1,0,0,1,-61.306557,-1242.567289)">
         <g transform="matrix(1,0,0,1,0,-0.551181)">
             <g transform="matrix(2.003711,0,0,2.003711,-11982.362949,-4132.960159)">
@@ -576,12 +728,14 @@
             </g>
         </g>
     </g>
-</svg></div>
-        <h3 class="feature-title">Liebende</h3>
-        <p class="feature-desc">Gemeinsame Erinnerungen sichtbar machen – für Paare, die ihre Geschichte feiern.</p>
+</svg></span>
+        <div>
+          <div class="zielgruppe-title">Liebende</div>
+          <div class="zielgruppe-desc">Gemeinsame Erinnerungen sichtbar machen – für Paare, die ihre Geschichte feiern.</div>
+        </div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon"><svg width="100%" height="100%" viewBox="0 0 228 244" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+      <div class="zielgruppe-item">
+        <span class="zielgruppe-icon"><svg width="100%" height="100%" viewBox="0 0 228 244" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
     <g transform="matrix(1,0,0,1,-3546.135521,-636.555417)">
         <g transform="matrix(1,0,0,1,-0.15748,-0.551181)">
             <g transform="matrix(6.164073,0,0,6.112678,954.190257,-283.854596)">
@@ -634,23 +788,14 @@
             </g>
         </g>
     </g>
-</svg></div>
-        <h3 class="feature-title">Eltern</h3>
-        <p class="feature-desc">Die ersten Momente deines Kindes festhalten – als bleibendes Erinnerungsstück.</p>
+</svg></span>
+        <div>
+          <div class="zielgruppe-title">Eltern</div>
+          <div class="zielgruppe-desc">Die ersten Momente deines Kindes festhalten – als bleibendes Erinnerungsstück.</div>
+        </div>
       </div>
     </div>
-  </div>
 </section>
-
-
-<!-- ZITAT -->
-<section id="zitat">
-  <div class="section-inner">
-    <p class="zitat-text reveal">„Jede Geschichte, jedes Rezept, jeder besondere Moment verdient es, sichtbar zu bleiben. Ich halte diese Augenblicke visuell fest – damit sie Teil deines Alltags werden."</p>
-  </div>
-</section>
-
-
 
 <!-- PRODUKTE -->
 <section id="produkte">
@@ -693,7 +838,7 @@
     </g>
 </svg></div>
         <div class="produkt-cat">Unsere Geschichte</div>
-        <h3>Vom ersten Kennenlernen bis zur Hochzeit – eure gemeinsame Geschichte als Poster.</h3>
+        <h3>Die wichtigsten Stationen eurer Beziehung als persönliches Poster.</h3>
       </div>
 
       <div class="produkt-card" >
@@ -732,7 +877,7 @@
     </g>
 </svg></div>
         <div class="produkt-cat">Besondere Momente</div>
-        <h3>Die wichtigsten Stationen im Leben einer Person – von Geburt über besondere Erlebnisse bis heute.</h3>
+        <h3>Die wichtigsten Stationen im Leben einer Person – von der Geburt bis heute.</h3>
       </div>
 
       <div class="produkt-card" >
@@ -780,8 +925,8 @@
         </g>
     </g>
 </svg></div>
-        <div class="produkt-cat">Lieblings-Rezepte</div>
-        <h3>Rezepte, die du liebst – als stilvolle Illustration für dich oder als Geschenk.</h3>
+        <div class="produkt-cat">Lieblingsrezepte</div>
+        <h3>Rezepte, die du liebst – als minimalistische Illustration.</h3>
       </div>
 
       <div class="produkt-card" >
@@ -824,18 +969,45 @@
   </div>
 </section>
 
+<!-- GALERIE -->
+<section id="galerie" style="background:var(--cream); padding: 80px 24px;">
+  <div class="section-inner">
+    <span class="section-label reveal">Einblicke</span>
+    <h2 class="section-h2 reveal">Aus der Werkstatt</h2>
+    <p class="section-text reveal" style="margin-top: 12px;">So können personalisierte Poster aussehen.<br>Jedes entsteht individuell aus deinen Erinnerungen.</p>
+  </div>
+  <div class="galerie-grid reveal">
+    <div class="galerie-item galerie-tall">
+      <div class="galerie-placeholder"><span>Poster 1</span></div>
+    </div>
+    <div class="galerie-item">
+      <div class="galerie-placeholder"><span>Poster 2</span></div>
+    </div>
+    <div class="galerie-item">
+      <div class="galerie-placeholder"><span>Poster 3</span></div>
+    </div>
+    <div class="galerie-item galerie-wide">
+      <div class="galerie-placeholder"><span>Poster 4</span></div>
+    </div>
+    <div class="galerie-item">
+      <div class="galerie-placeholder"><span>Poster 5</span></div>
+    </div>
+  </div>
+</section>
 
+<!-- CTA NACH PRODUKTEN -->
+<section id="bestellung" style="background:var(--cream); padding: 56px 24px; text-align:center; ">
+  <a href="#kontakt" class="btn-primary" style="font-size:13px; padding:16px 40px;">Poster bestellen</a>
+</section>
 
-
-
-<!-- PROZESS -->
+<!-- ABLAUF -->
 <section id="prozess">
   <div class="section-inner">
-    <span class="section-label reveal" style="text-align:center;display:block;">Der Prozess</span>
+    <span class="section-label reveal" style="text-align:center;display:block;">Der Ablauf</span>
     <h2 class="section-h2 reveal" style="text-align:center;">So funktioniert es</h2>
-    <div class="prozess-grid">
-      <div class="prozess-step reveal">
-        <div class="prozess-icon"><svg width="100%" height="100%" viewBox="0 0 210 257" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+    <div class="ablauf-grid">
+      <div class="ablauf-step reveal">
+        <div class="ablauf-icon"><svg width="100%" height="100%" viewBox="0 0 210 257" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
     <g transform="matrix(1,0,0,1,-82.980097,-647.691353)">
         <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
             <path d="M6039.62,2704.33C6040.63,2704.62 6080.38,2705.26 6083.93,2705.32C6097.87,2705.55 6097.81,2705.59 6111.7,2704.49" style="fill:none;stroke:currentColor;stroke-width:2.42px;"/>
@@ -878,10 +1050,12 @@
         </g>
     </g>
 </svg></div>
-        <h3>Bestellformular ausfüllen</h3>
+        <span class="ablauf-num">1</span>
+        <h3 class="ablauf-title">Bestellformular</h3>
+        <p class="ablauf-desc">Du wählst Momente oder Zutaten aus.</p>
       </div>
-      <div class="prozess-step reveal">
-        <div class="prozess-icon"><svg width="100%" height="100%" viewBox="0 0 206 142" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+      <div class="ablauf-step reveal">
+        <div class="ablauf-icon"><svg width="100%" height="100%" viewBox="0 0 206 142" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
     <g transform="matrix(1,0,0,1,-484.681376,-697.395247)">
         <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
             <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
@@ -937,10 +1111,12 @@
         </g>
     </g>
 </svg></div>
-        <h3>Bezahlen</h3>
+        <span class="ablauf-num">2</span>
+        <h3 class="ablauf-title">Bezahlung</h3>
+        <p class="ablauf-desc">Du erhältst die Zahlungsdaten per Mail.</p>
       </div>
-      <div class="prozess-step reveal">
-        <div class="prozess-icon"><svg width="100%" height="100%" viewBox="0 0 182 232" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+      <div class="ablauf-step reveal">
+        <div class="ablauf-icon"><svg width="100%" height="100%" viewBox="0 0 182 232" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
     <g transform="matrix(1,0,0,1,-920.496367,-644.972837)">
         <g transform="matrix(1.036376,0,0,1.036376,-5961.879599,-2216.822552)">
             <path d="M6780.91,2780.72C6780.97,2789.11 6781.11,2789.04 6781.11,2797.38C6781.94,2797.44 6784.99,2797.65 6791.46,2796.99" style="fill:none;stroke:currentColor;stroke-width:4.02px;"/>
@@ -971,10 +1147,12 @@
         </g>
     </g>
 </svg></div>
-        <h3>Individuelle Anfertigung</h3>
+        <span class="ablauf-num">3</span>
+        <h3 class="ablauf-title">Gestaltung</h3>
+        <p class="ablauf-desc">Ich illustriere dein Poster individuell.</p>
       </div>
-      <div class="prozess-step reveal">
-        <div class="prozess-icon"><svg width="100%" height="100%" viewBox="0 0 195 169" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+      <div class="ablauf-step reveal">
+        <div class="ablauf-icon"><svg width="100%" height="100%" viewBox="0 0 195 169" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
     <g transform="matrix(1,0,0,1,-1321.010112,-687.513692)">
         <g transform="matrix(1.11144,0,0,1.11144,-4855.536402,-2601.736662)">
             <path d="M5596.15,3066.81C5591.49,3066.61 5568.62,3067.38 5564.78,3064.55C5561.45,3062.09 5563.55,3055.48 5562.46,3043.5C5561.53,3033.25 5561.07,3011.35 5561.01,3008.55C5560.54,2985.94 5570.54,2990.23 5601.74,2990.23C5616.22,2990.23 5616.12,2990.71 5630.67,2990.71C5660.59,2990.71 5660.47,2989.08 5690.44,2989.63C5711.71,2990.01 5727.35,2982.64 5728.16,3007.1C5728.56,3019.09 5727.65,3056.58 5727.32,3058.08C5726.32,3062.53 5726.64,3067.71 5693.33,3066.88C5692.91,3066.87 5693.01,3066.82 5692.61,3066.76" style="fill:none;stroke:currentColor;stroke-width:7.5px;"/>
@@ -1008,28 +1186,28 @@
         </g>
     </g>
 </svg></div>
-        <h3>Datei erhalten &amp; ausdrucken</h3>
+        <span class="ablauf-num">4</span>
+        <h3 class="ablauf-title">Download</h3>
+        <p class="ablauf-desc">Du erhältst die fertige Datei per Mail.</p>
       </div>
     </div>
   </div>
 </section>
-
 
 <!-- ÜBER MICH -->
 <section id="ueber">
   <div class="section-inner">
     <span class="section-label reveal">Über mich</span>
     <div class="ueber-layout">
-      <div class="ueber-avatar reveal">🧠</div>
       <div class="ueber-text reveal">
         <div class="ueber-name">Annabelle Reuter</div>
         <div class="ueber-role">Gründerin · Visuell denkend · Geschichtenerzählerin</div>
         <p class="ueber-bio">
-          <strong>Hallo, ich bin Annabelle Reuter.</strong>
+          <strong>Hallo, ich bin Annabelle.</strong>
           <br><br>
-          Ursprünglich komme ich aus dem Sozialbereich, wo ich gelernt habe, wie wertvoll jeder Lebensweg ist und wie wichtig kleine und große Geschichten im Leben von Menschen sind. Später habe ich im Grafikbereich gearbeitet und dort meine Leidenschaft für visuelle Kommunikation entdeckt.
+          Ich arbeite visuell und liebe es, Geschichten in Bilder zu übersetzen. Nach meinem Studium im Sozialbereich und meiner Arbeit im Grafikdesign habe ich begonnen, Erinnerungen als minimalistische Illustrationen festzuhalten.
           <br><br>
-          Heute gestalte ich minimalistische Illustrationen, die besondere Momente sichtbar machen und ihnen einen Platz im Alltag geben – an der Wand, nicht in der Schublade. Mein Fokus liegt auf dem Wesentlichen, sodass individuelle Einzelstücke entstehen, die genau deine Geschichte erzählen.
+          So entstehen persönliche Poster aus Momenten, die im Alltag sichtbar bleiben sollen – statt in einer Schublade zu verschwinden.
         </p>
       </div>
     </div>
@@ -1076,144 +1254,14 @@
     <h2 class="section-h2 reveal">FAQ</h2>
     <div class="faq-list">
       <div class="faq-item reveal">
-        <div class="faq-icon"><svg width="100%" height="100%" viewBox="0 0 210 257" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
-    <g transform="matrix(1,0,0,1,-82.980097,-647.691353)">
-        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
-            <path d="M6039.62,2704.33C6040.63,2704.62 6080.38,2705.26 6083.93,2705.32C6097.87,2705.55 6097.81,2705.59 6111.7,2704.49" style="fill:none;stroke:currentColor;stroke-width:3.38px;"/>
-        </g>
-        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
-            <path d="M6040.41,2717.76C6058.2,2717.23 6058.08,2716.53 6075.97,2716.99" style="fill:none;stroke:currentColor;stroke-width:3.38px;"/>
-        </g>
-        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
-            <path d="M6090.55,2716.82C6101.05,2716.79 6100.93,2716.06 6111.43,2716.43" style="fill:none;stroke:currentColor;stroke-width:3.38px;"/>
-        </g>
-        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
-            <path d="M6040.14,2731.54C6042.65,2731.11 6065.64,2730.8 6080.5,2731.06" style="fill:none;stroke:currentColor;stroke-width:3.38px;"/>
-        </g>
-        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
-            <path d="M6044.95,2754.21C6047.63,2757.01 6049.1,2758.7 6051.94,2761.33C6054.85,2757.77 6058.35,2749.97 6065.3,2741.25" style="fill:none;stroke:currentColor;stroke-width:3.38px;"/>
-        </g>
-        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
-            <path d="M6055.46,2743.86C6047.02,2744.29 6047.68,2743.48 6039.3,2743.76C6039.54,2751.12 6037.46,2752.12 6039.31,2769.95C6051.67,2770.47 6051.62,2769.97 6064.01,2770.41C6064.99,2761.07 6064.64,2761.12 6065.13,2751.8" style="fill:none;stroke:currentColor;stroke-width:3.38px;"/>
-        </g>
-        <g transform="matrix(2.071475,0.028114,0,2.053008,-12422.2033,-5029.52017)">
-            <path d="M6118.74,2751.07C6109.74,2747.06 6084.63,2743.49 6081.22,2770.8C6075.83,2813.88 6134.23,2814 6135.05,2773.85C6135.12,2770.38 6134.2,2757.97 6118.74,2751.07Z" style="fill:none;stroke:currentColor;stroke-width:5.61px;stroke-linejoin:miter;"/>
-        </g>
-        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3940.165522)">
-            <path d="M6128.24,2749.39C6128.22,2709.4 6129.23,2710.05 6128.8,2696.51C6128.66,2691.94 6128.01,2690.3 6112.89,2670.25C6108.64,2670.43 6039.6,2665.34 6032.2,2670.39C6030.7,2671.41 6029.59,2675.4 6029.22,2682.35C6028.51,2695.37 6029.13,2714.39 6027.9,2779.51C6027.48,2802.25 6031.89,2801.94 6055.51,2801.94C6062.04,2801.94 6080.12,2802.02 6084.38,2801.17" style="fill:none;stroke:currentColor;stroke-width:6.77px;"/>
-        </g>
-        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3940.165522)">
-            <path d="M6109.43,2670.76C6108.48,2691.28 6108.14,2692.19 6108.14,2692.19C6108.14,2692.19 6113.56,2694.25 6127.89,2693.63" style="fill:none;stroke:currentColor;stroke-width:6.77px;"/>
-        </g>
-        <g transform="matrix(1.555798,0,0,1.494661,-9183.31429,-3467.680995)">
-            <path d="M6028.47,2865.05C6031.91,2864.97 6031.87,2865.05 6035.32,2864.81C6035.32,2866.46 6039.5,2890.36 6039.69,2890.52C6041.17,2891.79 6061.25,2890.28 6065.88,2890.76" style="fill:none;stroke:currentColor;stroke-width:3.82px;"/>
-        </g>
-        <g transform="matrix(1.555798,0,0,1.494661,-9183.31429,-3467.680995)">
-            <path d="M6037.94,2869.56L6054.05,2869.56C6062.02,2869.56 6060.49,2869.42 6068.42,2869.42C6066.71,2873.62 6065.99,2873.06 6063.8,2883.04C6057.43,2882.65 6058.69,2883.01 6052.35,2883.12C6048.97,2883.18 6043.86,2882.97 6039.53,2883.16" style="fill:none;stroke:currentColor;stroke-width:3.82px;"/>
-        </g>
-        <g transform="matrix(1.558421,0,0,1.494661,-9200.220183,-3469.033742)">
-            <ellipse cx="6045.76" cy="2901.72" rx="3.861" ry="3.912" style="fill:none;stroke:currentColor;stroke-width:3.82px;"/>
-        </g>
-        <g transform="matrix(1.434373,0,0,1.402974,-8428.003095,-3202.778397)">
-            <ellipse cx="6045.76" cy="2901.72" rx="3.861" ry="3.912" style="fill:none;stroke:currentColor;stroke-width:4.11px;"/>
-        </g>
-    </g>
-</svg></div>
         <div class="faq-question">Wie funktioniert die Bestellung?</div>
         <div class="faq-answer">Du wählst dein Wunschthema aus und füllst mein Bestellformular aus. Dort kannst du aus verschiedenen Symbolen und Ereignissen deine Favoriten wählen.</div>
       </div>
       <div class="faq-item reveal">
-        <div class="faq-icon"><svg width="100%" height="100%" viewBox="0 0 182 232" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
-    <g transform="matrix(1,0,0,1,-920.496367,-644.972837)">
-        <g transform="matrix(1.036376,0,0,1.036376,-5961.879599,-2216.822552)">
-            <path d="M6780.91,2780.72C6780.97,2789.11 6781.11,2789.04 6781.11,2797.38C6781.94,2797.44 6784.99,2797.65 6791.46,2796.99" style="fill:none;stroke:currentColor;stroke-width:5.62px;"/>
-        </g>
-        <g transform="matrix(1.036376,0,0,1.036376,-5961.879599,-2216.822552)">
-            <path d="M6750.48,2800.56C6721.07,2799.89 6660.94,2800.08 6660.94,2800.08C6660.94,2800.08 6661.1,2876.33 6659.12,2950.84C6711.43,2950.64 6711.75,2949.35 6723.29,2949.89C6754.86,2951.38 6749.49,2949.5 6781.18,2951.08C6779.02,2940.55 6781.7,2917.02 6780.98,2880.4C6780.87,2875.09 6780.73,2835.15 6781.43,2826" style="fill:none;stroke:currentColor;stroke-width:5.62px;"/>
-        </g>
-        <g transform="matrix(1.036376,0,0,1.036376,-5897.739334,-2195.954864)">
-            <path d="M6749.39,2777.74C6753.49,2734.54 6688.74,2735 6689.5,2775.54C6690.18,2811.01 6745.81,2815.46 6749.39,2777.74Z" style="fill:none;stroke:currentColor;stroke-width:11.24px;"/>
-        </g>
-        <g transform="matrix(1.036376,0,0,1.036376,-5961.879599,-2216.822552)">
-            <path d="M6752.05,2781.49C6745.71,2779.98 6730.8,2781.45 6727.16,2781.32C6722.13,2781.14 6700.47,2779.95 6662.3,2780.71C6659.8,2780.76 6647,2777.69 6646.75,2793.98C6646.37,2818.75 6647.14,2822.53 6645.24,2936.29C6644.51,2980 6642.36,2979.17 6665.11,2980.43C6670.66,2980.74 6675.15,2979.31 6739.2,2980.95C6759.38,2981.47 6758.22,2980.81 6778.5,2980.73C6792.44,2980.67 6795.44,2986.84 6794.92,2954C6794.51,2928.44 6795.66,2825.95 6795.66,2822.14" style="fill:none;stroke:currentColor;stroke-width:11.24px;"/>
-        </g>
-        <g transform="matrix(1.036376,0,0,1.036376,-5964.890271,-2217.493398)">
-            <ellipse cx="6721.61" cy="2965.32" rx="6.181" ry="5.988" style="fill:none;stroke:currentColor;stroke-width:5.62px;"/>
-        </g>
-        <g transform="matrix(1.036376,0,0,1.036376,-5571.298763,-2223.172685)">
-            <path d="M6305.6,2830.7C6309.07,2844.14 6307.2,2847.5 6300.59,2854.12C6308.46,2852.42 6307.21,2853.19 6309.98,2853.95C6320.19,2856.73 6320.95,2863.79 6320.38,2861.93C6317.73,2853.3 6325.04,2842.88 6326.23,2841.64C6313.64,2841.89 6317.54,2840.26 6305.6,2830.7Z" style="fill:none;stroke:currentColor;stroke-width:5.62px;"/>
-        </g>
-        <g transform="matrix(1.036376,0,0,1.15616,-5571.298763,-2569.692832)">
-            <path d="M6351.33,2864.18C6357.41,2872.99 6352.42,2879.93 6348.08,2884.74C6353.91,2880.8 6358.4,2881.35 6361.8,2881.55C6367.24,2881.88 6371.19,2885.1 6371.19,2885.1C6371.19,2885.1 6363.99,2880.55 6375.34,2866.37C6374.19,2867.06 6361.1,2872.17 6351.33,2864.18Z" style="fill:none;stroke:currentColor;stroke-width:5.31px;"/>
-        </g>
-        <g transform="matrix(0.612984,0.98238,-1.220395,0.7615,623.328286,-7632.379592)">
-            <path d="M6351.33,2864.18C6357.41,2872.99 6352.42,2879.93 6348.08,2884.74C6353.91,2880.8 6358.4,2881.35 6361.8,2881.55C6367.24,2881.88 6371.19,2885.1 6371.19,2885.1C6371.19,2885.1 6363.99,2880.55 6375.34,2866.37C6374.19,2867.06 6361.1,2872.17 6351.33,2864.18Z" style="fill:none;stroke:currentColor;stroke-width:4.46px;"/>
-        </g>
-        <g transform="matrix(1.036376,0,0,1.036376,-5571.298763,-2223.172685)">
-            <path d="M6311.33,2887.57C6313.79,2893.2 6307.94,2900.6 6307.12,2901.33C6313.85,2898.17 6319.41,2905.63 6320.03,2906.35C6318.54,2898 6322.98,2893.52 6324,2892.99C6317.88,2893.15 6314.66,2888.96 6311.33,2887.57Z" style="fill:none;stroke:currentColor;stroke-width:5.62px;"/>
-        </g>
-    </g>
-</svg></div>
         <div class="faq-question">Wie bekomme ich mein Poster?</div>
         <div class="faq-answer">Nach der Gestaltung erhältst du einen Link zum digitalen Download. Du bekommst eine hochwertige Datei, die du selbst ausdrucken kannst.</div>
       </div>
       <div class="faq-item reveal">
-        <div class="faq-icon"><svg width="100%" height="100%" viewBox="0 0 206 142" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
-    <g transform="matrix(1,0,0,1,-484.681376,-697.395247)">
-        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
-            <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
-                <path d="M6044.17,3033.14C6043.77,3048.68 6043.77,3048.67 6043.77,3048.67L6070.98,3048.79L6071.49,3027.35L6044.57,3026.77C6044.57,3026.77 6043.83,3030.08 6044.17,3033.14Z" style="fill:none;stroke:currentColor;stroke-width:3.36px;"/>
-            </g>
-        </g>
-        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
-            <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
-                <path d="M6045.89,3035.39C6048.7,3035.84 6049.4,3035.45 6052.28,3035.67" style="fill:none;stroke:currentColor;stroke-width:3.36px;"/>
-            </g>
-        </g>
-        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
-            <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
-                <path d="M6045.35,3042.57C6045.83,3042.57 6049.05,3042.59 6051.4,3042.48" style="fill:none;stroke:currentColor;stroke-width:3.36px;"/>
-            </g>
-        </g>
-        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
-            <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
-                <path d="M6053.6,3027.33C6053.05,3046.29 6053.01,3046.29 6053.07,3047.29" style="fill:none;stroke:currentColor;stroke-width:3.36px;"/>
-            </g>
-        </g>
-        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
-            <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
-                <path d="M6060.31,3047.39C6060.75,3042.52 6060.67,3041.26 6060.78,3036.22C6065.77,3036.37 6065.28,3035.68 6070.25,3036.44" style="fill:none;stroke:currentColor;stroke-width:3.36px;"/>
-            </g>
-        </g>
-        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
-            <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
-                <path d="M6061.71,3043.31C6068.47,3042.77 6068.35,3043.18 6070.04,3043.25" style="fill:none;stroke:currentColor;stroke-width:3.36px;"/>
-            </g>
-        </g>
-        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
-            <g transform="matrix(1,0,0,1,5.192055,0)">
-                <path d="M6081.78,3033.7C6102.68,3033.88 6102.57,3032.92 6123.54,3033.32" style="fill:none;stroke:currentColor;stroke-width:6.73px;"/>
-            </g>
-        </g>
-        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
-            <g transform="matrix(1,0,0,1,5.192055,0)">
-                <path d="M6082.658,3046.941C6089.278,3047.311 6094.773,3045.56 6113.293,3047.41" style="fill:none;stroke:currentColor;stroke-width:6.73px;"/>
-            </g>
-        </g>
-        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
-            <path d="M6088,3072.46C6089.28,3073.77 6129.06,3073.37 6132.63,3073.33" style="fill:none;stroke:currentColor;stroke-width:6.73px;"/>
-        </g>
-        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
-            <path d="M6074.9,3015.33C6035.05,3013.64 6036.47,3016.83 6036.14,3022.12C6034.616,3046.411 6033.11,3064.573 6034.385,3075.923C6035.235,3083.489 6037.321,3088.028 6041.46,3089.34C6049.9,3092.01 6084.15,3091.51 6107.85,3091.51C6143.35,3091.51 6146.83,3090.09 6147.43,3079.64C6147.68,3075.25 6146.78,3058.9 6145.59,3021.73C6145.55,3020.4 6144.32,3016.67 6139.46,3016.06C6123.53,3014.06 6079.63,3015.57 6074.9,3015.33Z" style="fill:none;stroke:currentColor;stroke-width:6.73px;"/>
-        </g>
-        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
-            <path d="M6075.29,3063.97C6071.36,3059.5 6059.44,3060.1 6058.4,3068.94C6056.83,3082.31 6069.14,3080.86 6073.01,3079.12C6079.16,3076.37 6078.46,3066.79 6075.29,3063.97Z" style="fill:none;stroke:currentColor;stroke-width:6.73px;"/>
-        </g>
-        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
-            <path d="M6060.49,3063.48C6056.83,3060.24 6045.2,3059.29 6044.52,3071.71C6044.33,3075.11 6046.45,3078.44 6049.37,3079.48C6055.03,3081.5 6059.68,3078.21 6060.39,3077.68" style="fill:none;stroke:currentColor;stroke-width:6.73px;"/>
-        </g>
-    </g>
-</svg></div>
         <div class="faq-question">Wie kann ich bezahlen?</div>
         <div class="faq-answer">Sobald du dein Formular abgeschickt hast, erhältst du von mir alle Informationen zur Bezahlung. Nach Zahlungseingang beginne ich mit der visuellen Umsetzung.</div>
       </div>
@@ -1226,83 +1274,51 @@
 </section>
 
 
-<!-- KONTAKT -->
-<section id="kontakt">
-  <div class="section-inner">
-    <span class="section-label">Lass uns verbinden</span>
-    <div class="kontakt-icon"><svg width="100%" height="100%" viewBox="0 0 263 216" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;">
-    <g transform="matrix(1,0,0,1,-1282.166843,-64.760898)">
-        <g transform="matrix(1,0,0,1,-530.393701,0)">
-            <g transform="matrix(-4.463043,0,0,4.869498,2071.408656,-55.432152)">
-                <path d="M48.829,59.661C48.829,59.661 48.098,61.06 44.643,57.351C42.717,55.283 42.519,53.141 42.519,53.141C42.519,53.141 22.389,53.907 21.504,48.205C20.945,44.603 20.451,29.877 22.053,27.638C23.23,25.994 25.785,25.413 34.596,25.57C42.796,25.716 52.138,24.86 54.238,28C57.126,32.32 55.959,37.632 56.429,42.543C56.881,47.27 58.123,52.143 55.011,52.734C49.984,53.69 48.312,53.35 48.312,53.35L48.829,59.661Z" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:2.52px;"/>
-            </g>
-        </g>
-        <g transform="matrix(1,0,0,1,-530.393701,0)">
-            <g transform="matrix(4.463043,0,0,4.869498,1828.483272,-12.116732)">
-                <path d="M33.924,25.57C42.124,25.716 50.569,24.86 52.669,28C54.274,30.4 54.26,37.535 54.194,43.324C54.142,47.955 54.378,51.65 52.995,51.913C47.967,52.868 46.296,52.528 46.296,52.528L46.812,58.839C46.812,58.839 46.082,60.239 42.627,56.53C40.7,54.461 40.503,52.32 40.503,52.32C40.503,52.32 24.679,52.338 22.176,50.67C20.789,49.745 21.21,45.232 21.157,44.315" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:2.52px;"/>
-            </g>
-        </g>
-        <g transform="matrix(1,0,0,1,-530.393701,0)">
-            <g transform="matrix(0.811579,0,0,0.844923,634.5103,-2876.820623)">
-                <path d="M1525.32,3582.53C1518.53,3568.79 1501.67,3582.9 1509.1,3591.81C1516.08,3600.19 1530.25,3592.49 1525.32,3582.53Z" style="fill:none;stroke:currentColor;stroke-width:6.15px;stroke-linejoin:miter;stroke-miterlimit:1;"/>
-            </g>
-        </g>
-        <g transform="matrix(1,0,0,1,-530.393701,0)">
-            <g transform="matrix(0.811579,0,0,0.844923,665.37173,-2875.92814)">
-                <path d="M1525.32,3582.53C1518.53,3568.79 1501.67,3582.9 1509.1,3591.81C1516.08,3600.19 1530.25,3592.49 1525.32,3582.53Z" style="fill:none;stroke:currentColor;stroke-width:6.15px;stroke-linejoin:miter;stroke-miterlimit:1;"/>
-            </g>
-        </g>
-        <g transform="matrix(1,0,0,1,-530.393701,0)">
-            <g transform="matrix(0.811579,0,0,0.844923,697.090422,-2875.92814)">
-                <path d="M1525.32,3582.53C1518.53,3568.79 1501.67,3582.9 1509.1,3591.81C1516.08,3600.19 1530.25,3592.49 1525.32,3582.53Z" style="fill:none;stroke:currentColor;stroke-width:6.15px;stroke-linejoin:miter;stroke-miterlimit:1;"/>
-            </g>
-        </g>
-        <g transform="matrix(1,0,0,1,-530.393701,0)">
-            <g transform="matrix(0.811579,0,0,0.844923,732.5103,-2833.820623)">
-                <path d="M1525.32,3582.53C1521.598,3574.999 1513.619,3580.569 1509.505,3584.33C1506.113,3587.43 1505.743,3587.784 1509.1,3591.81C1516.08,3600.19 1530.25,3592.49 1525.32,3582.53Z" style="fill:none;stroke:currentColor;stroke-width:6.15px;stroke-linejoin:miter;stroke-miterlimit:1;"/>
-            </g>
-        </g>
-        <g transform="matrix(1,0,0,1,-530.393701,0)">
-            <g transform="matrix(0.811579,0,0,0.844923,763.37173,-2832.92814)">
-                <path d="M1525.32,3582.53C1518.53,3568.79 1501.67,3582.9 1509.1,3591.81C1516.08,3600.19 1530.25,3592.49 1525.32,3582.53Z" style="fill:none;stroke:currentColor;stroke-width:6.15px;stroke-linejoin:miter;stroke-miterlimit:1;"/>
-            </g>
-        </g>
-        <g transform="matrix(1,0,0,1,-530.393701,0)">
-            <g transform="matrix(0.811579,0,0,0.844923,795.090422,-2832.92814)">
-                <path d="M1525.32,3582.53C1518.53,3568.79 1501.67,3582.9 1509.1,3591.81C1516.08,3600.19 1530.25,3592.49 1525.32,3582.53Z" style="fill:none;stroke:currentColor;stroke-width:6.15px;stroke-linejoin:miter;stroke-miterlimit:1;"/>
-            </g>
-        </g>
-    </g>
-</svg></div>
-    <h2 class="section-h2">Dein Hirn spaziert?<br>Meins auch.</h2>
-    <p class="section-text" style="margin: 0 auto;">Folg mir auf Instagram, schreib mir eine Nachricht — oder schau einfach mal rein.</p>
-    <div class="social-links">
-      <a href="https://instagram.com/hirnspaziert" class="social-link">📷 @hirnspaziert</a>
-      <a href="https://etsy.com" class="social-link">🛒 Etsy Shop</a>
-      <a href="/cdn-cgi/l/email-protection#a8c0c9c4c4c7e8c0c1dac6dbd8c9d2c1cddadc86c9dc" class="social-link">✉️ <span class="__cf_email__" data-cfemail="523a333e3e3d123a3b203c212233283b3720267c3326">[email&#160;protected]</span></a>
+<!-- FOOTER -->
+<footer id="kontakt">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">Hirnspaziert</div>
+      <p class="footer-tagline">Visuelle Begleiter<br>für Menschen mit ADHS.</p>
     </div>
-    <div class="footer-note">
-      © 2026 Hirnspaziert · Österreich · Alle digitalen Produkte zum Download
-      &nbsp;·&nbsp; <a href="#impressum">Impressum</a>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <span class="footer-col-label">Seiten</span>
+        <a href="#hero">Start</a>
+        <a href="#produkte">Produkte</a>
+        <a href="#faq">FAQ</a>
+        <a href="#ueber">Über mich</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-label">Shop</span>
+        <a href="https://etsy.com" target="_blank" rel="noopener">Etsy Shop</a>
+        <a href="#bestellung">Bestellen</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-label">Verbinden</span>
+        <a href="https://www.instagram.com/visuals.by.ar" target="_blank" rel="noopener">
+          <span class="footer-social-icon"><svg viewBox="0 0 208 217" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;"><g transform="matrix(1,0,0,1,-887.918914,-1832.917681)"><g transform="matrix(3.765453,0,0,3.765453,-22309.454725,-7824.219553)"><path d="M6195.88,2566.37C6188.75,2566.37 6177.29,2565.01 6170.15,2566.4C6164.47,2567.52 6161.96,2570.08 6161.98,2578.67C6162.07,2612.32 6158.86,2620.25 6171.68,2620.84C6183.48,2621.38 6202.23,2620.49 6205.45,2620.54C6211.02,2620.61 6214.88,2620.26 6214.5,2603.38C6214.34,2596.3 6214.32,2583.41 6214.24,2578.9C6214.16,2574.02 6215.29,2566.89 6208.83,2566.8C6206.5,2566.77 6202.67,2566.38 6195.88,2566.37Z" style="fill:none;stroke:currentColor;stroke-width:2.21px;"/></g><g transform="matrix(3.765453,0,0,3.765453,-22309.698349,-7833.06005)"><ellipse cx="6189" cy="2596.05" rx="13.091" ry="12.803" style="fill:none;stroke:currentColor;stroke-width:1.11px;"/></g><g transform="matrix(3.765453,0,0,3.620536,-22309.454725,-7451.231434)"><ellipse cx="6205.32" cy="2577.3" rx="3.377" ry="3.49" style="fill:none;stroke:currentColor;stroke-width:1.13px;"/></g></g></svg></span>
+          Instagram
+        </a>
+        <a href="https://pinterest.com" target="_blank" rel="noopener">
+          <span class="footer-social-icon"><svg viewBox="0 0 235 225" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;"><g transform="matrix(1,0,0,1,-1725.213817,-1828.916238)"><g transform="matrix(3.680335,0,0,3.680335,-20931.79833,-9941.619235)"><path d="M6174.97,3237.2C6171.2,3236.47 6165.69,3214.04 6187.81,3213.13C6206.08,3212.37 6208.25,3233.04 6201.77,3239.16C6194.65,3245.88 6188.52,3243.82 6186.8,3242.1C6180.36,3235.66 6184.5,3232.33 6185.58,3226.85C6184.12,3231.68 6182.22,3236.53 6179.32,3255.38" style="fill:none;stroke:currentColor;stroke-width:1.13px;"/></g><g transform="matrix(3.680335,0,0,3.680335,-20931.79833,-9941.619235)"><path d="M6179.07,3256.85C6197.31,3262.46 6223.11,3246.79 6218.12,3225.3C6211,3194.71 6166.31,3188.11 6158.57,3222.18C6154.81,3238.79 6159.41,3248.64 6179.07,3256.85Z" style="fill:none;stroke:currentColor;stroke-width:2.26px;"/></g></g></svg></span>
+          Pinterest
+        </a>
+        <a href="/cdn-cgi/l/email-protection#731b121f1f1c331b1a011d000312091a1601075d1207">
+          <span class="footer-social-icon"><svg viewBox="0 0 244 164" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;"><g transform="matrix(1,0,0,1,-1309.727411,-1849.794224)"><g transform="matrix(3.93519,0,0,3.93519,-23410.340081,-8770.285684)"><path d="M6296.31,2699.85C6289.85,2700.56 6283.52,2699.24 6283.38,2703.16C6282.87,2717.32 6282.92,2727.47 6282.86,2732.02C6282.77,2739.03 6284.82,2737.99 6286.28,2738.13C6296.34,2739.04 6332.33,2739.25 6333.22,2739.22C6341.41,2738.99 6341.09,2737.7 6341.53,2733.85C6343.2,2719.29 6341.88,2719.96 6342.64,2704.74C6342.81,2701.39 6341.79,2700.88 6332.69,2700.43C6330.03,2700.29 6298.24,2699.63 6296.31,2699.85Z" style="fill:none;stroke:currentColor;stroke-width:2.12px;"/></g><g transform="matrix(3.93519,0,0,3.93519,-23410.340081,-8770.285684)"><path d="M6286.42,2701.59C6289.3,2703.93 6302.67,2716.64 6307.62,2721.03C6313.44,2726.2 6319.43,2721.34 6328.83,2712.01C6329.72,2711.13 6339.316,2702.158 6339.486,2701.648" style="fill:none;stroke:currentColor;stroke-width:1.06px;"/></g><g transform="matrix(3.93519,0,0,3.93519,-23410.340081,-8770.285684)"><path d="M6284.197,2736.555C6283.387,2737.515 6287.87,2733.08 6298.13,2724.88C6304.34,2719.91 6305.302,2719.926 6305.602,2719.316" style="fill:none;stroke:currentColor;stroke-width:1.06px;"/></g><g transform="matrix(3.93519,0,0,3.93519,-23410.340081,-8770.285684)"><path d="M6339.435,2737.666C6336.835,2734.196 6322.718,2721.332 6321.088,2719.242" style="fill:none;stroke:currentColor;stroke-width:1.06px;"/></g></g></svg></span>
+          E-Mail
+        </a>
+      </div>
     </div>
   </div>
-</section>
-
-<!-- IMPRESSUM -->
-<section id="impressum">
-  <div class="section-inner">
-    <span class="section-label">Impressum</span>
-    <h2 class="section-h2" style="font-size: clamp(24px, 3vw, 32px);">Angaben gemäß § 5 ECG</h2>
-    <div class="impressum-grid">
-      <div class="impressum-block"><h3>Unternehmerin</h3><p>[Vor- und Nachname]<br>[Straße]<br>[PLZ Ort]<br>Österreich</p></div>
-      <div class="impressum-block"><h3>Kontakt</h3><p>E-Mail: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3850595454577850514a564b485942515d4a4c16594c">[email&#160;protected]</a></p></div>
-      <div class="impressum-block"><h3>Unternehmensgegenstand</h3><p>Erstellung und Verkauf digitaler Produkte</p></div>
-      <div class="impressum-block"><h3>UID / Steuernummer</h3><p>[UID-Nummer, falls vorhanden]</p></div>
-    </div>
+  <div class="footer-bottom">
+    <span>© 2026 Hirnspaziert · Österreich · Alle digitalen Produkte zum Download</span>
+    <a href="impressum.html">Impressum</a>
   </div>
-</section>
+</footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   const reveals = document.querySelectorAll(".reveal");
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
@@ -1328,10 +1344,3 @@
     }
     detail.classList.toggle("open");
     openDetail = detail.classList.contains("open") ? detail : null;
-    if (detail.classList.contains("open")) {
-      detail.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    }
-  }
-</script>
-</body>
-</html>
