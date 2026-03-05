@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hirnspaziert – visuelle Begleiter für Menschen mit ADHS</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FFFFFF;
+    --sage: #F2F2F2;
+    --charcoal: #1C1A18;
+    --charcoal-light: #3D3A36;
+    --muted: #6e6b67;
+    --accent: #1C1A18;
+    --accent-hover: #3D3A36;
+    --accent-light: #E8E8E8;
+    --accent-mid: #6e6b67;
+    --border: rgba(28,26,24,0.11);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "Lora", serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(250,248,244,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s;
+  }
+  nav.scrolled { border-bottom-color: var(--border); }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: "Roboto", sans-serif; font-size: 20px; font-weight: 600;
+    letter-spacing: -0.3px; text-decoration: none;
+  }
+  .nav-logo-svg {
+    width: 26px; height: 22px; flex-shrink: 0; color: var(--charcoal);
+  }
+  .nav-logo .logo-hirn { color: #fff; /* white for "Hirn" */ }
+  .nav-logo .logo-spaziert { color: var(--charcoal); /* dark for "spaziert" */ }
+  /* alternative: swap colors or use --accent/--sage as desired */
+  .nav-logo span { }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    font-family: "Roboto", sans-serif; font-size: 11px; font-weight: 400; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--charcoal); text-decoration: none; opacity: 1; transition: opacity 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; }
+
+  /* HERO */
+  #hero {
+    background: var(--sage);
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    padding: 120px 24px 80px; position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block; font-size: 11px; font-weight: 500;
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase; letter-spacing: 2px;
+    color: var(--accent); background: var(--accent-light);
+    padding: 4px 16px; border-radius: 20px; margin-bottom: 28px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-h1 {
+    font-family: "Roboto", sans-serif; font-size: clamp(48px, 8vw, 88px);
+    font-weight: 700; line-height: 1.05; letter-spacing: -2px; margin-bottom: 28px;
+    animation: fadeUp 0.8s ease 0.1s both;
+  }
+  .hero-h1 em { color: var(--accent); }
+  .hero-sub {
+    font-size: clamp(16px, 2.5vw, 19px); font-weight: 300; color: var(--charcoal-light);
+    max-width: 560px; line-height: 1.65; margin-bottom: 44px;
+    animation: fadeUp 0.8s ease 0.2s both;
+  }
+  .hero-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; animation: fadeUp 0.8s ease 0.3s both; }
+  .btn-primary {
+    display: inline-block; background: var(--charcoal); color: var(--cream);
+    font-family: "Roboto", sans-serif; font-size: 12px; font-weight: 400;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    padding: 14px 30px; border-radius: 50px;
+    text-decoration: none; transition: background 0.25s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--charcoal-light); transform: translateY(-1px); }
+  .btn-secondary {
+    display: inline-block; background: transparent; color: var(--charcoal-light);
+    font-family: "Roboto", sans-serif; font-size: 12px; font-weight: 400;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    padding: 14px 30px; border-radius: 50px;
+    border: 1px solid var(--border); text-decoration: none; transition: border-color 0.25s, color 0.25s;
+  }
+  .btn-secondary:hover { border-color: var(--charcoal); color: var(--charcoal); }
+
+  /* SECTION BASE */
+  section { padding: 96px 24px; }
+  .section-inner { max-width: 900px; margin: 0 auto; }
+  .section-label {
+    font-family: "Roboto", sans-serif;
+    font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 16px; display: block;
+  }
+  .section-h2 {
+    font-family: "Roboto", sans-serif; font-size: clamp(30px, 5vw, 46px);
+    font-weight: 600; line-height: 1.15; letter-spacing: -1px; margin-bottom: 20px;
+  }
+  .section-h2 em { color: var(--accent); }
+  .section-text { font-size: 16px; font-weight: 300; color: var(--charcoal-light); max-width: 580px; line-height: 1.75; }
+  .divider { max-width: 900px; margin: 0 auto; height: 1px; background: var(--border); }
+
+  /* NAME — Card-Stil */
+  #name { background: var(--cream); padding: 72px 24px; }
+  .name-layout {
+    max-width: 900px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+  }
+  .name-left { text-align: left; }
+  .name-word {
+    font-family: "Roboto", sans-serif;
+    font-size: clamp(52px, 9vw, 96px);
+    font-weight: 700; letter-spacing: -3px; line-height: 1;
+    color: var(--charcoal);
+    display: block;
+  }
+  .name-word-italic {
+    font-family: "Roboto", sans-serif;
+    font-size: clamp(52px, 9vw, 96px);
+    font-weight: 600;
+    letter-spacing: -3px; line-height: 1.05;
+    color: var(--accent);
+    display: block;
+  }
+  .name-cards { display: flex; flex-direction: column; gap: 16px; }
+  .name-card {
+    background: var(--cream); border-radius: 12px;
+    padding: 24px 28px;
+    border-left: 3px solid var(--accent);
+    box-shadow: 0 1px 4px rgba(28,26,24,0.06);
+  }
+  .name-card-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+  }
+  .name-card-title {
+    font-family: "Roboto", sans-serif; font-size: 20px;
+    font-weight: 600; color: var(--charcoal); margin-bottom: 8px; line-height: 1.2;
+  }
+  .name-card-text {
+    font-size: 14px; font-weight: 300; color: var(--charcoal-light); line-height: 1.65;
+  }
+  @media(max-width: 700px) {
+    .name-layout { grid-template-columns: 1fr; gap: 36px; }
+  }
+
+  /* FÜR WEN */
+  #fuerwen { background: var(--cream); }
+  .fuerwen-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+  .fuerwen-quote {
+    font-family: "Roboto", sans-serif; font-size: clamp(20px, 3vw, 26px);
+    font-weight: 400; line-height: 1.5; color: var(--charcoal);
+    border-left: 2px solid var(--accent); padding-left: 28px;
+  }
+  .fuerwen-points { display: flex; flex-direction: column; gap: 28px; padding-top: 8px; }
+  .fuerwen-point { display: flex; gap: 16px; align-items: flex-start; }
+  .fp-icon {
+    width: 36px; height: 36px; border-radius: 0; background: none;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--charcoal);
+  }
+  .fp-text .fp-title { font-family: "Roboto", sans-serif; font-weight: 600; font-size: 15px; margin-bottom: 3px; }
+  .fp-text .fp-desc { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.6; }
+
+  /* PRODUKTE */
+  #produkte { background: var(--cream); padding-top: 80px; padding-bottom: 48px; }
+  .produkte-intro { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; flex-wrap: wrap; gap: 16px; }
+  .produkte-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border: none; border-radius: 0; overflow: visible;
+  }
+  .produkt-card {
+    padding: 1.75rem 1.5rem 1.5rem;
+    border-right: none;
+    display: flex; flex-direction: column;
+    background: var(--cream); cursor: pointer;
+    transition: background 0.2s; position: relative;
+    text-decoration: none; color: inherit;
+  }
+  .produkt-card:last-child { border-right: none; }
+
+  /* Icon in Karte */
+  .produkt-icon {
+    width: 36px; height: 36px; margin-bottom: 0.75rem; color: var(--accent);
+  }
+
+  /* ADHS / verstanden / Alltag / sich selbst — dezent, schwarz */
+  .produkt-verb {
+    font-family: "Lora", serif;
+    font-style: normal;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--charcoal-light);
+    margin-bottom: 2px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* BEGREIFEN / FÜHLEN / ORDNEN / VERSTEHEN */
+  .produkt-cat {
+    font-family: "Roboto", sans-serif;
+    font-style: normal;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--charcoal);
+    letter-spacing: -0.3px;
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
+  }
+
+  /* Produktname — dezent */
+  .produkt-card h3 {
+    font-size: 0.8rem; font-weight: 400;
+    color: var(--muted); margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+  }
+
+  .produkt-examples { font-size: 0.75rem; color: var(--muted); line-height: 1.6; flex: 1; font-weight: 300; }
+
+  .produkt-link {
+    display: flex; align-items: center; gap: 0.3rem;
+    font-family: "Roboto", sans-serif; font-size: 11px; font-weight: 400;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--charcoal); margin-top: 1.25rem;
+    padding-top: 1rem;
+  }
+
+  /* FEATURES/START YOUR JOURNEY */
+  #features { background: var(--cream); padding: 64px 0; }
+  .features-header { text-align: center; margin-bottom: 56px; }
+  .features-header .section-h2 { margin-bottom: 20px; }
+  .features-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 32px; max-width: 900px; margin: 0 auto;
+  }
+  .feature-card {
+    text-align: center; padding: 32px 24px;
+    background: var(--sage); border: 1px solid var(--border);
+    border-radius: 12px; transition: transform 0.3s, box-shadow 0.3s;
+  }
+  #fuerwen .feature-card {
+    background: #F5F5F5; border: none;
+  }
+  #fuerwen .feature-icon {
+    width: 36px; height: 36px;
+  }
+  .feature-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(28,26,24,0.1); }
+  .feature-icon {
+    width: 56px; height: 56px; margin: 0 auto 20px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent); flex-shrink: 0;
+  }
+  .feature-icon svg { width: 100%; height: 100%; stroke-width: 1.5; }
+  .feature-title {
+    font-family: "Roboto", sans-serif;
+    font-size: 20px; font-weight: 600; color: var(--charcoal);
+    margin-bottom: 12px; letter-spacing: -0.3px;
+  }
+  .feature-desc {
+    font-size: 15px; font-weight: 300; color: var(--charcoal-light);
+    line-height: 1.7;
+  }
+  @media(max-width: 800px) {
+    .features-grid { grid-template-columns: 1fr; gap: 24px; }
+    .feature-card { padding: 24px; }
+  }
+
+  /* STIL */
+  #stil { background: var(--sage); }
+  .stil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .stil-intro { font-size: 0.9rem; font-weight: 300; color: var(--charcoal-light); line-height: 1.75; margin-bottom: 2rem; }
+  .stil-items { display: flex; flex-direction: column; }
+  .stil-item {
+    display: flex; align-items: center; gap: 1.1rem; padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border); font-size: 0.88rem; font-weight: 300; color: var(--charcoal-light);
+  }
+  .stil-item:first-child { border-top: 1px solid var(--border); }
+  .stil-num { font-family: "Roboto", sans-serif; font-size: 1rem; color: var(--accent); min-width: 24px; }
+  .samples { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .sample {
+    background: var(--sage); border: 1px solid var(--border); border-radius: 8px;
+    aspect-ratio: 3/4; display: flex; align-items: center; justify-content: center;
+    overflow: hidden; transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .sample:nth-child(2) { margin-top: 1.5rem; }
+  .sample:hover { transform: translateY(-4px) rotate(-0.5deg); box-shadow: 0 12px 28px rgba(28,26,24,0.1); }
+  .sample:nth-child(2):hover { transform: translateY(-4px) rotate(0.5deg); }
+
+  /* FAQ */
+  #faq { background: var(--sage); }
+  .faq-list { display: flex; flex-direction: column; gap: 24px; max-width: 700px; margin: 0 auto; }
+  .faq-item {
+    background: var(--cream); border-radius: 12px; padding: 28px;
+    border-left: 3px solid var(--accent); box-shadow: 0 1px 4px rgba(28,26,24,0.06);
+    animation: fadeUp 0.8s ease both;
+  }
+  .faq-icon {
+    width: 40px; height: 40px; color: var(--accent); margin-bottom: 14px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .faq-icon svg { width: 100%; height: 100%; }
+  .kontakt-icon {
+    width: 64px; height: 64px; color: var(--accent); margin: 0 auto 24px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .kontakt-icon svg { width: 100%; height: 100%; }
+  .faq-question {
+    font-family: "Roboto", sans-serif; font-size: 18px; font-weight: 600;
+    color: var(--charcoal); margin-bottom: 12px; letter-spacing: -0.3px;
+  }
+  .faq-answer {
+    font-size: 15px; font-weight: 300; color: var(--charcoal-light);
+    line-height: 1.75;
+  }
+
+  /* ÜBER MICH */
+  #ueber { background: var(--sage); padding-top: 48px; }
+  .ueber-layout { display: grid; grid-template-columns: auto 1fr; gap: 64px; align-items: center; }
+  .ueber-avatar {
+    width: 160px; height: 160px; border-radius: 50%; background: var(--accent-light);
+    display: flex; align-items: center; justify-content: center; font-size: 64px;
+    flex-shrink: 0; border: 4px solid var(--cream); box-shadow: 0 0 0 1px var(--border);
+  }
+  .ueber-text .ueber-name { font-family: "Roboto", sans-serif; font-size: 28px; font-weight: 600; letter-spacing: -0.5px; margin-bottom: 6px; }
+  .ueber-text .ueber-role { font-size: 13px; color: var(--accent); font-weight: 500; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px; }
+  .ueber-text { margin: 0 auto; text-align: left; }
+  .ueber-text .ueber-bio { font-size: 16px; font-weight: 300; color: var(--charcoal-light); line-height: 1.75; max-width: 520px; }
+  .ueber-text .ueber-bio strong { font-weight: 600; color: var(--charcoal); }
+
+  /* KONTAKT */
+  #kontakt { background: var(--cream); text-align: center; padding: 80px 24px; }
+  .social-links { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin: 40px 0 48px; }
+  .social-link {
+    display: inline-flex; align-items: center; gap: 8px; background: var(--sage);
+    border: 1px solid var(--border); color: var(--charcoal); padding: 12px 22px;
+    border-radius: 50px; font-size: 13px; font-weight: 500; text-decoration: none;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+  .social-link:hover { background: var(--charcoal); border-color: var(--charcoal); color: white; }
+  .footer-note { font-size: 12px; color: var(--muted); }
+  .footer-note a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+  .footer-note a:hover { color: var(--accent); }
+
+  /* IMPRESSUM */
+  #impressum { background: var(--cream); padding: 64px 24px; }
+  .impressum-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 32px; }
+  .impressum-block h3 { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .impressum-block p { font-size: 14px; font-weight: 300; color: var(--charcoal-light); line-height: 1.75; }
+
+
+  /* ZITAT */
+  #zitat { background: var(--cream); padding: 80px 24px; text-align: center; }
+  .zitat-text {
+    font-family: "Lora", serif;
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-weight: 400;
+    color: var(--charcoal);
+    line-height: 1.75;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* PROZESS */
+  #prozess { background: var(--cream); }
+  .prozess-grid {
+    display: flex; flex-direction: column; gap: 6px; max-width: 360px; margin: 0 auto;
+  }
+  .prozess-step {
+    display: flex; align-items: center; gap: 28px;
+    padding: 12px 0;
+  }
+  .prozess-icon {
+    width: 54px; height: 54px; flex-shrink: 0;
+    border: 1.5px solid var(--charcoal); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--charcoal); padding: 12px; position: relative;
+  }
+  .prozess-icon svg { width: 100%; height: 100%; }
+  .prozess-step h3 {
+    font-family: "Roboto", sans-serif; font-size: 12px; font-weight: 700;
+    color: var(--charcoal); letter-spacing: 1.5px; text-transform: uppercase; margin: 0;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes scrollPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .reveal { opacity: 1; transform: translateY(0); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media(max-width: 800px) {
+    nav { padding: 16px 20px; }
+    .nav-links { gap: 18px; }
+    .produkte-grid { grid-template-columns: 1fr 1fr; }
+    .produkt-card { border-bottom: none; border-right: none; }
+    .produkt-card:nth-child(odd) { border-right: none; }
+    .fuerwen-layout { grid-template-columns: 1fr; gap: 36px; }
+    .stil-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .ueber-layout { grid-template-columns: 1fr; }
+    .ueber-avatar { margin: 0 auto; }
+  }
+  @media(max-width: 600px) {
+    nav { padding: 14px 16px; }
+    .nav-links { display: none; }
+    .duden-word { font-size: clamp(36px, 10vw, 52px); }
+    .produkte-grid { grid-template-columns: 1fr; }
+    .produkt-card { border-right: none !important; }
+    .detail-grid { grid-template-columns: 1fr; }
+    .impressum-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ACCESSIBILITY NOTE:
+     Contrast ratios checked:
+     - var(--accent) #4a8c7e on white/cream: ~4.6:1 → passes AA for normal text ✓
+     - var(--muted) #6e6b67 on cream: ~5.2:1 → passes AA ✓  
+     - var(--charcoal) #1C1A18 on cream: ~17:1 → AAA ✓
+     - var(--accent) on --sage #EAF0ED: ~4.2:1 → passes AA ✓
+  */
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo"><div class="nav-logo-svg"><svg width="100%" height="100%" viewBox="0 0 268 221" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-59.033333,-1841.415157)">
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(1.147215,0,0,1.633523,-845.195284,6.461844)">
+                <path d="M900.286,1248.22C898.714,1248.66 897.031,1249.107 895.233,1249.561C883.944,1252.415 872.204,1254.318 860.012,1255.269C854.593,1255.586 850.529,1255.904 848.271,1255.904C831.563,1255.904 818.017,1252.415 807.631,1245.756C797.245,1239.096 791.826,1230.533 791.826,1220.068L791.826,1216.897C792.729,1208.969 796.342,1201.675 803.115,1195.649C809.437,1189.624 818.017,1185.501 828.854,1182.647C832.918,1181.696 839.692,1181.062 848.271,1181.062C861.366,1181.062 873.558,1183.281 883.944,1188.038L890.266,1190.575L890.266,1183.281C890.266,1167.742 886.654,1157.594 878.977,1152.203C870.305,1146.113 858.205,1147.763 852.787,1148.08C843.304,1149.032 835.627,1151.569 829.757,1155.057C826.596,1157.277 822.984,1158.228 818.92,1158.228C814.856,1158.228 811.695,1157.277 809.437,1155.374C807.179,1153.472 805.825,1151.252 805.825,1148.397C805.825,1146.178 806.728,1144.275 808.534,1142.055C810.792,1139.201 815.307,1136.347 822.532,1133.493C829.757,1130.638 837.434,1128.736 845.11,1127.467C850.077,1126.516 855.496,1126.199 861.818,1126.199C874.64,1126.199 885.493,1128.273 894.247,1132.33C894.43,1132.201 894.963,1132.473 895.75,1133.057C899.633,1135.013 903.077,1137.381 906.071,1140.152C910.742,1144.626 914.315,1150.572 916.79,1157.99C917.083,1158.683 917.287,1159.318 917.387,1159.881C917.61,1160.628 917.823,1161.389 918.026,1162.164C919.186,1164.234 920.295,1156.205 920.295,1157.277L927.52,1151.569C935.196,1144.909 945.13,1136.87 956.419,1132.747C967.708,1128.625 979.449,1126.722 990.738,1126.722C1001.575,1126.722 1008.8,1130.321 1012.864,1132.858C1016.025,1135.078 1017.831,1137.298 1017.831,1139.518C1017.831,1140.152 1017.38,1141.421 1016.928,1143.006C1014.67,1149.349 1009.703,1150.935 1002.478,1150.935C1000.672,1150.935 991.641,1150.617 988.931,1150.617C983.964,1150.617 977.642,1151.886 969.966,1154.74C950.097,1162.034 937.002,1177.256 930.229,1200.089C928.423,1206.749 927.52,1213.726 927.52,1221.337C927.52,1228.314 927.52,1234.656 927.971,1240.047C928.552,1246.983 926.842,1250.195 924.584,1251.781C921.875,1253.684 917.585,1255.8 913.521,1255.8C907.657,1255.8 903.174,1252.565 900.286,1248.22ZM846.465,1202.943C842.401,1202.943 839.24,1203.26 836.982,1203.895C831.112,1205.797 827.048,1208.969 824.79,1213.091C823.887,1214.677 823.435,1216.897 823.435,1219.751C823.435,1223.239 823.887,1225.776 825.242,1227.362C827.951,1231.485 836.756,1234.973 849.4,1234.973C870.397,1234.973 883.493,1229.265 884.847,1228.948C885.75,1228.631 886.202,1227.679 886.202,1226.094C886.202,1222.605 883.944,1218.8 879.429,1214.36C874.913,1210.237 869.946,1207.066 864.076,1205.163C860.012,1203.578 854.141,1202.943 846.465,1202.943Z" style="stroke:currentColor;stroke-width:5.9px;"/>
+            </g>
+        </g>
+    </g>
+</svg></div></a>
+  <ul class="nav-links">
+    <li><a href="#fuerwen">Für wen</a></li>
+    <li><a href="#produkte">Produkte</a></li>
+    <li><a href="#ueber">Über mich</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-tag">Für alle, die ihre Erinnerungen sichtbar machen wollen</div>
+  <h1 class="hero-h1">Deine Erinnerungen.<br>Für dich visualisiert.</h1>
+  <p class="hero-sub">
+    Von den ersten Schritten deines Babys über eure gemeinsame Geschichte bis zum Familienrezept aus Omas Küche. Ich gestalte daraus personalisierte Poster, die Erinnerungen sichtbar machen.
+  </p>
+  <div class="hero-cta">
+    <a href="#produkte" class="btn-primary">Produkte entdecken</a>
+    <a href="#ueber" class="btn-secondary">Über mich</a>
+  </div>
+</section>
+
+
+<!-- FÜR WEN -->
+<section id="fuerwen">
+  <div class="section-inner">
+    <div class="features-header reveal">
+      <span class="section-label">Für wen</span>
+      <h2 class="section-h2">Für wen sind die Poster?</h2>
+    </div>
+    <div class="features-grid reveal">
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="100%" height="100%" viewBox="0 0 225 231" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+    <g transform="matrix(1,0,0,1,-896.079788,-1241.091902)">
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(1.810925,0,0,1.810925,-10273.322166,-3576.963247)">
+                <g transform="matrix(1,0,0,1,-45.0512,0.158601)">
+                    <path d="M6216.39,2697.56C6216.18,2699.17 6213.85,2718.2 6216.14,2719.66C6222.13,2723.47 6222.98,2716.25 6304.83,2720.8C6307.04,2720.92 6325.3,2721.93 6332.46,2719.55C6334.43,2718.89 6333.51,2718.06 6334.39,2700.44C6334.73,2693.77 6330.86,2696.47 6307.9,2696.47C6270.48,2696.47 6218.63,2697 6216.39,2697.56Z" style="fill:none;stroke:currentColor;stroke-width:11.5px;"/>
+                </g>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(1.810925,0,0,1.810925,-10273.322166,-3576.963247)">
+                <g transform="matrix(1,0,0,1,-45.0512,0.158601)">
+                    <path d="M6222.91,2722.41C6223.5,2744.45 6218.95,2780.95 6224.97,2784.12C6230.48,2787.04 6233.64,2784.76 6260.37,2785.61C6271.62,2785.96 6316.36,2785.93 6321.3,2784.29C6328.5,2781.88 6324.73,2780.82 6324.73,2735.58C6324.73,2726.54 6324.82,2726.57 6324.61,2723.3" style="fill:none;stroke:currentColor;stroke-width:11.5px;"/>
+                </g>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(1.810925,0,0,1.810925,-10273.322166,-3576.963247)">
+                <g transform="matrix(1,0,0,1,-45.0512,0.158601)">
+                    <path d="M6265.83,2695.33C6263.7,2689.64 6270.32,2682.13 6276.62,2682.97C6284.59,2684.03 6284.34,2693.37 6284.36,2693.39" style="fill:none;stroke:currentColor;stroke-width:5.75px;"/>
+                </g>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(1.810925,0,0,1.810925,-10273.322166,-3576.963247)">
+                <g transform="matrix(1,0,0,1,-45.0512,0.158601)">
+                    <path d="M6280.99,2683.47C6287.34,2670.44 6310.55,2654.06 6318.76,2668.82C6325.51,2680.97 6314.73,2689.81 6308.47,2692.94C6306.01,2694.17 6306.13,2694.19 6303.81,2695.55" style="fill:none;stroke:currentColor;stroke-width:5.75px;"/>
+                </g>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(1.810925,0,0,1.810925,-10273.322166,-3576.963247)">
+                <g transform="matrix(1,0,0,1,-45.0512,0.158601)">
+                    <path d="M6268.1,2684.07C6262.05,2668.5 6241.07,2653.12 6228.31,2667.7C6219.9,2677.3 6226.01,2685.98 6230.47,2688.28C6241.12,2693.78 6252.85,2694.12 6255.71,2695.55" style="fill:none;stroke:currentColor;stroke-width:5.75px;"/>
+                </g>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(1.810925,0,0,1.810925,-10273.322166,-3576.963247)">
+                <g transform="matrix(1,0,0,1,-45.0512,0.158601)">
+                    <path d="M6262.77,2698.2C6263.84,2706.93 6260.09,2768.18 6262.3,2783.67" style="fill:none;stroke:currentColor;stroke-width:5.75px;"/>
+                </g>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(1.810925,0,0,1.810925,-10273.322166,-3576.963247)">
+                <g transform="matrix(1,0,0,1,-45.0512,0.158601)">
+                    <path d="M6286.27,2699.11C6286.85,2728.79 6288.12,2725.28 6286.7,2755C6286.3,2763.52 6285.99,2771.52 6286.63,2783.73" style="fill:none;stroke:currentColor;stroke-width:5.75px;"/>
+                </g>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(1.810925,0,0,1.810925,-10273.322166,-3576.963247)">
+                <g transform="matrix(1,0,0,1,-45.0512,0.158601)">
+                    <path d="M6287.17,2697.36C6286.47,2689.05 6305.36,2679.09 6307.33,2678.05" style="fill:none;stroke:currentColor;stroke-width:5.75px;"/>
+                </g>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(1.810925,0,0,1.810925,-10273.322166,-3576.963247)">
+                <g transform="matrix(1,0,0,1,-45.0512,0.158601)">
+                    <path d="M6264.57,2694.85C6264.37,2694.66 6255.32,2681.88 6242.98,2676.68" style="fill:none;stroke:currentColor;stroke-width:5.75px;"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg></div>
+        <h3 class="feature-title">Schenkende</h3>
+        <p class="feature-desc">Ein persönliches Poster als Geschenk – individuell gestaltet und unvergesslich.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="100%" height="100%" viewBox="0 0 255 214" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+    <g transform="matrix(1,0,0,1,-61.306557,-1242.567289)">
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(2.003711,0,0,2.003711,-11982.362949,-4132.960159)">
+                <g transform="matrix(1,0,0,1,-45.0512,0.158601)">
+                    <path d="M6171.01,2724.56C6171.55,2723.51 6175.04,2714.39 6172.57,2704.54C6170.47,2696.14 6158.44,2681.89 6137.79,2685.58C6123.5,2688.13 6118.14,2696.01 6114.37,2702.84C6108.29,2681.13 6060.32,2677.16 6057.85,2714.69C6056.37,2737.31 6099.42,2773.24 6100.36,2773.95C6106.35,2778.44 6109.42,2782.68 6114.71,2787.6C6119.8,2779.99 6124.78,2777.72 6127.05,2774.76" style="fill:none;stroke:currentColor;stroke-width:10.4px;"/>
+                </g>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(2.003711,0,0,2.003711,-11982.362949,-4132.960159)">
+                <g transform="matrix(1,0,0,1,-45.0512,0.158601)">
+                    <path d="M6148.06,2736.79C6139.69,2718.82 6109.31,2723.67 6113.42,2746.92C6114.11,2750.85 6115.6,2759.28 6145.65,2785.04C6146.58,2785.83 6146.65,2785.04 6150.27,2781.8C6152.96,2779.39 6191.31,2751.59 6177.64,2731.67C6174.89,2727.65 6159.93,2718.69 6148.06,2736.79Z" style="fill:none;stroke:currentColor;stroke-width:10.4px;"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg></div>
+        <h3 class="feature-title">Liebende</h3>
+        <p class="feature-desc">Gemeinsame Erinnerungen sichtbar machen – für Paare, die ihre Geschichte feiern.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="100%" height="100%" viewBox="0 0 228 244" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+    <g transform="matrix(1,0,0,1,-3546.135521,-636.555417)">
+        <g transform="matrix(1,0,0,1,-0.15748,-0.551181)">
+            <g transform="matrix(6.164073,0,0,6.112678,954.190257,-283.854596)">
+                <path d="M426.039,155.085C427.734,158.393 431.782,161.631 432.372,162.103C433.345,162.881 436.356,164.853 436.451,165.045" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.77px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-0.15748,-0.551181)">
+            <g transform="matrix(6.164073,0,0,6.112678,954.190257,23.680352)">
+                <path d="M428.614,133.006C426.85,131.249 422.777,133.832 425.286,136.49C427.251,138.57 430.913,135.295 428.614,133.006Z" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.77px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-0.15748,-0.551181)">
+            <g transform="matrix(6.164073,0,0,6.112678,954.190257,22.726775)">
+                <path d="M447.979,133.084C446.215,131.327 442.142,133.91 444.651,136.568C446.617,138.648 450.278,135.374 447.979,133.084Z" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.77px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-0.15748,-0.551181)">
+            <g transform="matrix(6.164073,0,0,6.112678,954.190257,-274.966762)">
+                <path d="M447.187,163.852C447.196,163.824 449.627,159.306 450.713,157.559C452.413,154.824 457.124,155.843 457.124,155.843L457.031,158.633C457.031,158.633 453.233,158.126 452.261,160.441C451.832,161.464 450.913,162.673 450.727,163.787" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.77px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-0.15748,-0.551181)">
+            <g transform="matrix(6.164073,0,0,6.112678,954.190257,-216.358404)">
+                <path d="M421.199,154.63C422.407,154.668 449.978,155.018 451.045,154.865C450.276,168.779 437.9,166.557 430.529,165.887C428.813,165.731 425.952,165.877 422.803,160.278C418.362,152.384 424.097,142.933 430.49,141.374C433.941,140.532 436.187,140.35 436.689,140.309C436.463,143.749 436.417,143.742 436.412,144.041C436.398,144.863 436.259,152.927 436.49,154.317" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:3.43px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-0.15748,-0.551181)">
+            <g transform="matrix(6.164073,0,0,6.112678,954.190257,19.156971)">
+                <path d="M430.742,131.935C427.891,129.481 423.289,130.296 422.304,133.635C420.563,139.535 426.015,141.078 428.809,140.003C432.356,138.638 432.748,133.662 430.742,131.935Z" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:3.43px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-0.15748,-0.551181)">
+            <g transform="matrix(6.164073,0,0,6.112678,954.190257,18.203393)">
+                <path d="M450.107,132.014C447.256,129.559 442.655,130.374 441.669,133.713C439.928,139.613 445.381,141.156 448.175,140.081C451.721,138.716 452.113,133.74 450.107,132.014Z" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:3.43px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-0.15748,-0.551181)">
+            <g transform="matrix(4.012823,-4.639989,-4.679001,-3.979364,2541.484715,3367.989555)">
+                <path d="M428.353,141.395C430.321,141.634 430.309,141.546 432.267,141.395" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.7px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-0.15748,-0.551181)">
+            <g transform="matrix(6.162273,0.14771,0.148952,-6.110893,934.793196,1608.292834)">
+                <path d="M432.564,135.492C433.171,135.386 433.174,135.518 440.261,135.492" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.7px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-0.15748,-0.551181)">
+            <g transform="matrix(4.167972,4.503479,4.541344,-4.13322,1195.229988,-600.135084)">
+                <path d="M441.057,141.453C441.3,141.441 442.437,141.383 444.095,141.453" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.7px;"/>
+            </g>
+        </g>
+    </g>
+</svg></div>
+        <h3 class="feature-title">Eltern</h3>
+        <p class="feature-desc">Die ersten Momente deines Kindes festhalten – als bleibendes Erinnerungsstück.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ZITAT -->
+<section id="zitat">
+  <div class="section-inner">
+    <p class="zitat-text reveal">„Jede Geschichte, jedes Rezept, jeder besondere Moment verdient es, sichtbar zu bleiben. Ich halte diese Augenblicke visuell fest – damit sie Teil deines Alltags werden."</p>
+  </div>
+</section>
+
+
+
+<!-- PRODUKTE -->
+<section id="produkte">
+  <div class="section-inner">
+    <div class="produkte-intro">
+      <div class="reveal">
+        <span class="section-label">Die Produktwelt</span>
+        <h2 class="section-h2">Deine Erinnerungen.</h2>
+        <p class="section-text" style="font-size:14px; margin-top:12px;">
+          Jedes Poster wird individuell für dich gestaltet und als digitale Datei geliefert.
+        </p>
+      </div>
+    </div>
+
+    <div class="produkte-grid reveal">
+
+      <div class="produkt-card" >
+        <div class="produkt-icon"><svg width="100%" height="100%" viewBox="0 0 284 209" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+    <g transform="matrix(1,0,0,1,-2280.405359,-1853.41266)">
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(6.187455,1.813797,-1.813797,6.187455,121.101265,807.600148)">
+                <path d="M390.581,59.915C390.461,59.89 390.752,59.493 387.941,58.501C382.285,56.504 368.708,59.176 371.04,72.59C372.314,79.912 377.881,81.771 378.767,81.979C386.408,83.77 389.825,82.687 394.296,77.813C396.071,75.879 398.871,70.834 395.798,64.764C395.607,64.387 394.379,62.714 394.361,62.696" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.82px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(6.187455,1.813797,-1.813797,6.187455,120.923875,808.205281)">
+                <path d="M388.071,62.666C387.988,62.648 388.461,62.525 386.503,61.82C382.561,60.402 373.101,62.3 374.726,71.831C375.614,77.034 379.493,78.355 380.11,78.502C385.434,79.775 387.903,79.309 391.019,75.846C392.255,74.472 395.82,69.898 391.278,65.226" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:0.91px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(6.187455,1.813797,-1.813797,6.187455,117.721072,819.13109)">
+                <path d="M391.03,73.649C389.843,70.962 389.458,70.252 389.883,66.303C390.096,64.32 395.953,53.928 406.53,60.75C413.474,65.229 410.256,84.483 394.57,76.244" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:0.91px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(1.755507,6.204245,6.204245,-1.755507,1332.650664,-378.900862)">
+                <path d="M398.298,56.505C387.828,56.081 382.568,66.642 384.82,73.868C387.255,81.678 394.094,84.825 397.701,84.77C400.706,84.724 405.416,83.219 409.521,79.044C413.388,75.11 415.335,64.183 402.668,57.167" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.82px;"/>
+            </g>
+        </g>
+    </g>
+</svg></div>
+        <div class="produkt-cat">Unsere Geschichte</div>
+        <h3>Vom ersten Kennenlernen bis zur Hochzeit – eure gemeinsame Geschichte als Poster.</h3>
+      </div>
+
+      <div class="produkt-card" >
+        <div class="produkt-icon"><svg width="100%" height="100%" viewBox="0 0 277 265" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;">
+    <g transform="matrix(1,0,0,1,-2273.453327,-1219.905992)">
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(7.606837,0,0,7.606837,2114.742869,1127.991283)">
+                <path d="M21.416,46.389C21.538,46.329 25.031,40.824 25.611,39.995C34.104,27.862 33.906,27.668 34.959,26.931C37.539,25.125 38.558,29.166 44.987,39.076C45.9,40.485 47.743,43.607 49.537,46.299" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.54px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(7.606837,0,0,7.606837,2114.742869,1182.85179)">
+                <path d="M43.902,29.98C44.884,28.232 46.401,25.265 48.097,25.264C49.82,25.263 53.75,32.514 56.704,36.418" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.54px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(-0.396513,7.596496,7.596496,0.396513,2112.208244,1127.2387)">
+                <path d="M33.442,31.255C34.107,30.995 38.065,33.795 38.254,34.637C38.413,35.345 33.429,38.215 33.442,38.881C33.459,39.837 36.1,41.686 36.252,42.299C36.453,43.107 33.724,44.103 33.367,44.662" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:0.73px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(7.606837,0,0,7.606837,2114.742869,1163.68104)">
+                <path d="M47.215,37.05C47.83,36.914 48.818,33.703 49.763,34.364C50.52,34.895 50.821,36.02 51.657,36.425C52.427,36.798 52.765,34.994 53.53,34.229" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:0.73px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(7.606837,0,0,7.606837,2114.742869,819.788116)">
+                <path d="M36.231,54.477C36.549,54.722 37.733,54.619 41.025,54.442C42.463,54.365 43.176,54.301 45.523,54.218C44.22,55.836 44.047,56.372 42.565,57.779C43.249,58.61 44.072,59.553 45.595,61.601C43.959,61.342 37.485,61.744 35.905,61.714" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:0.8px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(-0.010334,7.60683,7.60683,0.010334,1959.401537,1005.582484)">
+                <path d="M28.723,56.172C36.498,56.109 35.149,55.749 42.268,56.172" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.54px;"/>
+            </g>
+        </g>
+    </g>
+</svg></div>
+        <div class="produkt-cat">Besondere Momente</div>
+        <h3>Die wichtigsten Stationen im Leben einer Person – von Geburt über besondere Erlebnisse bis heute.</h3>
+      </div>
+
+      <div class="produkt-card" >
+        <div class="produkt-icon"><svg width="100%" height="100%" viewBox="0 0 212 259" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;">
+    <g transform="matrix(1,0,0,1,-2311.876345,-45.445864)">
+        <g transform="matrix(1,0,0,1,-0.094488,0)">
+            <g transform="matrix(4.430478,0,0,4.430478,1024.68645,-188.32861)">
+                <path d="M301.689,86.8C302.08,93.963 302.532,93.888 302.797,101.052C302.989,106.248 303.266,108.181 303.353,108.796" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.37px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-0.094488,0)">
+            <g transform="matrix(0.165552,4.427384,4.427384,-0.165552,1917.728636,-1099.633964)">
+                <path d="M299.108,96.192C301.147,95.772 318.376,96.05 319.045,96.192" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.37px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-0.094488,0)">
+            <g transform="matrix(-0.102984,4.429281,4.429281,0.102984,2032.430141,-1157.6381)">
+                <path d="M305.761,96.311C313.9,96.435 322.754,95.749 326.541,96.311" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.37px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-0.094488,0)">
+            <g transform="matrix(-0.338794,4.417505,4.417505,0.338794,2142.459031,-1216.5877)">
+                <path d="M313.381,97C324.939,96.647 333.318,96.94 335.05,97" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.37px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-0.094488,0)">
+            <g transform="matrix(-4.422092,0.272466,0.272466,4.422092,3776.339747,-580.900919)">
+                <path d="M315.931,127.835C317.5,126.627 317.622,126.567 319.542,127.078C324.437,128.381 324.495,137.763 315.931,137.738C311.542,137.726 304.948,129.632 312.272,127.562C313.436,127.232 314.992,127.939 315.16,128.088" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.31px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-0.094488,0)">
+            <g transform="matrix(1.205749,-4.26325,-4.26325,-1.205749,2631.606006,1572.104854)">
+                <path d="M311.145,138.679C311.448,138.775 315.161,140.242 318.387,138.679" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.31px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-0.094488,0)">
+            <g transform="matrix(4.430478,0,0,4.430478,1024.68645,-364.961564)">
+                <path d="M306.834,104.473C306.452,104.349 304.962,103.603 301.4,106.126C299.063,107.781 298.174,111.386 298.158,111.583C293.656,112.127 290.637,117.289 291.721,121.894C293.003,127.342 296.14,129.756 301.886,126.293C303.499,129.729 310.861,130.195 314.259,127.105C314.495,127.427 318.441,131.861 324.647,127.034C331.3,130.756 334.865,126.566 336.091,124.839C338.255,121.79 338.626,112.482 329.737,112.114C329.288,109.629 327.267,104.035 320.391,103.933" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:2.66px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-0.094488,0)">
+            <g transform="matrix(-3.483225,2.737933,2.737933,3.483225,3246.644297,-945.053881)">
+                <path d="M322.385,76.37C323.588,77.705 330.628,90.678 332.399,93.42C328.699,97.695 329.527,97.638 322.385,103.773C315.549,109.644 312.366,110.762 307.051,113.852C299.726,106.724 298.815,106.328 292.245,99.344" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:2.66px;"/>
+            </g>
+        </g>
+    </g>
+</svg></div>
+        <div class="produkt-cat">Lieblings-Rezepte</div>
+        <h3>Rezepte, die du liebst – als stilvolle Illustration für dich oder als Geschenk.</h3>
+      </div>
+
+      <div class="produkt-card" >
+        <div class="produkt-icon"><svg width="100%" height="100%" viewBox="0 0 202 223" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;">
+    <g transform="matrix(1,0,0,1,-2309.18631,-664.628015)">
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(4.112694,3.444437,-3.444437,4.112694,2479.640425,353.362728)">
+                <path d="M35.688,64.782C35.5,65.406 38.863,66.102 39.134,66.116C42.599,66.301 42.37,66.279 45.81,65.034C42.539,57.806 51.062,50.863 45.12,45.623C42.866,43.636 35.259,43.163 34.001,50.212C33.153,54.968 38.109,56.901 35.688,64.782Z" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.09px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(4.112694,3.444437,-3.444437,4.112694,2403.696103,444.041053)">
+                <path d="M35.629,38.4C30.604,38.087 21.668,41.241 24.989,45.862C27.004,48.665 36.657,48.665 37.698,48.665C40.295,48.665 52.929,49.328 55.864,45.077C57.289,43.012 57.062,39.631 50.444,38.947C48.12,38.706 48.153,38.637 45.809,38.535" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:2.21px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(4.112694,3.444437,-3.444437,4.112694,2346.073086,512.843547)">
+                <path d="M34.325,32.444C34.253,34.636 34.223,37.915 39.345,37.923C42.672,37.929 45.189,38.301 46.341,37.217C47.96,35.693 47.421,32.543 47.342,32.384" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:2.17px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(-5.364216,-0.059901,-0.059901,5.364216,2578.519121,676.732466)">
+                <path d="M38.678,17.284C40.881,14.398 49.641,17.986 49.11,27.539C48.83,32.582 44.02,37.519 38.678,38.732C34.997,39.568 31.074,38.463 28.162,35.111C27.697,34.575 23.922,30.796 28.249,26.248" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:2.17px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,0,-0.551181)">
+            <g transform="matrix(4.112694,3.444437,-3.444437,4.112694,2300.000643,567.854532)">
+                <path d="M35.169,23.133C30.757,24.256 32.893,34.177 42.183,33.661C47.64,33.358 50.565,25.869 47.043,23.756" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:2.17px;"/>
+            </g>
+        </g>
+    </g>
+</svg></div>
+        <div class="produkt-cat">Erste Schritte</div>
+        <h3>Die ersten besonderen Momente deines Babys – Geburt, erstes Lächeln, erste Schritte.</h3>
+      </div>
+
+    </div>
+
+
+  </div>
+</section>
+
+
+
+
+
+<!-- PROZESS -->
+<section id="prozess">
+  <div class="section-inner">
+    <span class="section-label reveal" style="text-align:center;display:block;">Der Prozess</span>
+    <h2 class="section-h2 reveal" style="text-align:center;">So funktioniert es</h2>
+    <div class="prozess-grid">
+      <div class="prozess-step reveal">
+        <div class="prozess-icon"><svg width="100%" height="100%" viewBox="0 0 210 257" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+    <g transform="matrix(1,0,0,1,-82.980097,-647.691353)">
+        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
+            <path d="M6039.62,2704.33C6040.63,2704.62 6080.38,2705.26 6083.93,2705.32C6097.87,2705.55 6097.81,2705.59 6111.7,2704.49" style="fill:none;stroke:currentColor;stroke-width:2.42px;"/>
+        </g>
+        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
+            <path d="M6040.41,2717.76C6058.2,2717.23 6058.08,2716.53 6075.97,2716.99" style="fill:none;stroke:currentColor;stroke-width:2.42px;"/>
+        </g>
+        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
+            <path d="M6090.55,2716.82C6101.05,2716.79 6100.93,2716.06 6111.43,2716.43" style="fill:none;stroke:currentColor;stroke-width:2.42px;"/>
+        </g>
+        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
+            <path d="M6040.14,2731.54C6042.65,2731.11 6065.64,2730.8 6080.5,2731.06" style="fill:none;stroke:currentColor;stroke-width:2.42px;"/>
+        </g>
+        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
+            <path d="M6044.95,2754.21C6047.63,2757.01 6049.1,2758.7 6051.94,2761.33C6054.85,2757.77 6058.35,2749.97 6065.3,2741.25" style="fill:none;stroke:currentColor;stroke-width:2.42px;"/>
+        </g>
+        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
+            <path d="M6055.46,2743.86C6047.02,2744.29 6047.68,2743.48 6039.3,2743.76C6039.54,2751.12 6037.46,2752.12 6039.31,2769.95C6051.67,2770.47 6051.62,2769.97 6064.01,2770.41C6064.99,2761.07 6064.64,2761.12 6065.13,2751.8" style="fill:none;stroke:currentColor;stroke-width:2.42px;"/>
+        </g>
+        <g transform="matrix(2.071475,0.028114,0,2.053008,-12422.2033,-5029.52017)">
+            <path d="M6118.74,2751.07C6109.74,2747.06 6084.63,2743.49 6081.22,2770.8C6075.83,2813.88 6134.23,2814 6135.05,2773.85C6135.12,2770.38 6134.2,2757.97 6118.74,2751.07Z" style="fill:none;stroke:currentColor;stroke-width:4.01px;stroke-linejoin:miter;"/>
+        </g>
+        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3940.165522)">
+            <path d="M6128.24,2749.39C6128.22,2709.4 6129.23,2710.05 6128.8,2696.51C6128.66,2691.94 6128.01,2690.3 6112.89,2670.25C6108.64,2670.43 6039.6,2665.34 6032.2,2670.39C6030.7,2671.41 6029.59,2675.4 6029.22,2682.35C6028.51,2695.37 6029.13,2714.39 6027.9,2779.51C6027.48,2802.25 6031.89,2801.94 6055.51,2801.94C6062.04,2801.94 6080.12,2802.02 6084.38,2801.17" style="fill:none;stroke:currentColor;stroke-width:4.84px;"/>
+        </g>
+        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3940.165522)">
+            <path d="M6109.43,2670.76C6108.48,2691.28 6108.14,2692.19 6108.14,2692.19C6108.14,2692.19 6113.56,2694.25 6127.89,2693.63" style="fill:none;stroke:currentColor;stroke-width:4.84px;"/>
+        </g>
+        <g transform="matrix(1.555798,0,0,1.494661,-9183.31429,-3467.680995)">
+            <path d="M6028.47,2865.05C6031.91,2864.97 6031.87,2865.05 6035.32,2864.81C6035.32,2866.46 6039.5,2890.36 6039.69,2890.52C6041.17,2891.79 6061.25,2890.28 6065.88,2890.76" style="fill:none;stroke:currentColor;stroke-width:2.73px;"/>
+        </g>
+        <g transform="matrix(1.555798,0,0,1.494661,-9183.31429,-3467.680995)">
+            <path d="M6037.94,2869.56L6054.05,2869.56C6062.02,2869.56 6060.49,2869.42 6068.42,2869.42C6066.71,2873.62 6065.99,2873.06 6063.8,2883.04C6057.43,2882.65 6058.69,2883.01 6052.35,2883.12C6048.97,2883.18 6043.86,2882.97 6039.53,2883.16" style="fill:none;stroke:currentColor;stroke-width:2.73px;"/>
+        </g>
+        <g transform="matrix(1.558421,0,0,1.494661,-9200.220183,-3469.033742)">
+            <ellipse cx="6045.76" cy="2901.72" rx="3.861" ry="3.912" style="fill:none;stroke:currentColor;stroke-width:2.73px;"/>
+        </g>
+        <g transform="matrix(1.434373,0,0,1.402974,-8428.003095,-3202.778397)">
+            <ellipse cx="6045.76" cy="2901.72" rx="3.861" ry="3.912" style="fill:none;stroke:currentColor;stroke-width:2.94px;"/>
+        </g>
+    </g>
+</svg></div>
+        <h3>Bestellformular ausfüllen</h3>
+      </div>
+      <div class="prozess-step reveal">
+        <div class="prozess-icon"><svg width="100%" height="100%" viewBox="0 0 206 142" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+    <g transform="matrix(1,0,0,1,-484.681376,-697.395247)">
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
+                <path d="M6044.17,3033.14C6043.77,3048.68 6043.77,3048.67 6043.77,3048.67L6070.98,3048.79L6071.49,3027.35L6044.57,3026.77C6044.57,3026.77 6043.83,3030.08 6044.17,3033.14Z" style="fill:none;stroke:currentColor;stroke-width:2.4px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
+                <path d="M6045.89,3035.39C6048.7,3035.84 6049.4,3035.45 6052.28,3035.67" style="fill:none;stroke:currentColor;stroke-width:2.4px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
+                <path d="M6045.35,3042.57C6045.83,3042.57 6049.05,3042.59 6051.4,3042.48" style="fill:none;stroke:currentColor;stroke-width:2.4px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
+                <path d="M6053.6,3027.33C6053.05,3046.29 6053.01,3046.29 6053.07,3047.29" style="fill:none;stroke:currentColor;stroke-width:2.4px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
+                <path d="M6060.31,3047.39C6060.75,3042.52 6060.67,3041.26 6060.78,3036.22C6065.77,3036.37 6065.28,3035.68 6070.25,3036.44" style="fill:none;stroke:currentColor;stroke-width:2.4px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
+                <path d="M6061.71,3043.31C6068.47,3042.77 6068.35,3043.18 6070.04,3043.25" style="fill:none;stroke:currentColor;stroke-width:2.4px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <g transform="matrix(1,0,0,1,5.192055,0)">
+                <path d="M6081.78,3033.7C6102.68,3033.88 6102.57,3032.92 6123.54,3033.32" style="fill:none;stroke:currentColor;stroke-width:4.81px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <g transform="matrix(1,0,0,1,5.192055,0)">
+                <path d="M6082.658,3046.941C6089.278,3047.311 6094.773,3045.56 6113.293,3047.41" style="fill:none;stroke:currentColor;stroke-width:4.81px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <path d="M6088,3072.46C6089.28,3073.77 6129.06,3073.37 6132.63,3073.33" style="fill:none;stroke:currentColor;stroke-width:4.81px;"/>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <path d="M6074.9,3015.33C6035.05,3013.64 6036.47,3016.83 6036.14,3022.12C6034.616,3046.411 6033.11,3064.573 6034.385,3075.923C6035.235,3083.489 6037.321,3088.028 6041.46,3089.34C6049.9,3092.01 6084.15,3091.51 6107.85,3091.51C6143.35,3091.51 6146.83,3090.09 6147.43,3079.64C6147.68,3075.25 6146.78,3058.9 6145.59,3021.73C6145.55,3020.4 6144.32,3016.67 6139.46,3016.06C6123.53,3014.06 6079.63,3015.57 6074.9,3015.33Z" style="fill:none;stroke:currentColor;stroke-width:4.81px;"/>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <path d="M6075.29,3063.97C6071.36,3059.5 6059.44,3060.1 6058.4,3068.94C6056.83,3082.31 6069.14,3080.86 6073.01,3079.12C6079.16,3076.37 6078.46,3066.79 6075.29,3063.97Z" style="fill:none;stroke:currentColor;stroke-width:4.81px;"/>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <path d="M6060.49,3063.48C6056.83,3060.24 6045.2,3059.29 6044.52,3071.71C6044.33,3075.11 6046.45,3078.44 6049.37,3079.48C6055.03,3081.5 6059.68,3078.21 6060.39,3077.68" style="fill:none;stroke:currentColor;stroke-width:4.81px;"/>
+        </g>
+    </g>
+</svg></div>
+        <h3>Bezahlen</h3>
+      </div>
+      <div class="prozess-step reveal">
+        <div class="prozess-icon"><svg width="100%" height="100%" viewBox="0 0 182 232" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+    <g transform="matrix(1,0,0,1,-920.496367,-644.972837)">
+        <g transform="matrix(1.036376,0,0,1.036376,-5961.879599,-2216.822552)">
+            <path d="M6780.91,2780.72C6780.97,2789.11 6781.11,2789.04 6781.11,2797.38C6781.94,2797.44 6784.99,2797.65 6791.46,2796.99" style="fill:none;stroke:currentColor;stroke-width:4.02px;"/>
+        </g>
+        <g transform="matrix(1.036376,0,0,1.036376,-5961.879599,-2216.822552)">
+            <path d="M6750.48,2800.56C6721.07,2799.89 6660.94,2800.08 6660.94,2800.08C6660.94,2800.08 6661.1,2876.33 6659.12,2950.84C6711.43,2950.64 6711.75,2949.35 6723.29,2949.89C6754.86,2951.38 6749.49,2949.5 6781.18,2951.08C6779.02,2940.55 6781.7,2917.02 6780.98,2880.4C6780.87,2875.09 6780.73,2835.15 6781.43,2826" style="fill:none;stroke:currentColor;stroke-width:4.02px;"/>
+        </g>
+        <g transform="matrix(1.036376,0,0,1.036376,-5897.739334,-2195.954864)">
+            <path d="M6749.39,2777.74C6753.49,2734.54 6688.74,2735 6689.5,2775.54C6690.18,2811.01 6745.81,2815.46 6749.39,2777.74Z" style="fill:none;stroke:currentColor;stroke-width:8.04px;"/>
+        </g>
+        <g transform="matrix(1.036376,0,0,1.036376,-5961.879599,-2216.822552)">
+            <path d="M6752.05,2781.49C6745.71,2779.98 6730.8,2781.45 6727.16,2781.32C6722.13,2781.14 6700.47,2779.95 6662.3,2780.71C6659.8,2780.76 6647,2777.69 6646.75,2793.98C6646.37,2818.75 6647.14,2822.53 6645.24,2936.29C6644.51,2980 6642.36,2979.17 6665.11,2980.43C6670.66,2980.74 6675.15,2979.31 6739.2,2980.95C6759.38,2981.47 6758.22,2980.81 6778.5,2980.73C6792.44,2980.67 6795.44,2986.84 6794.92,2954C6794.51,2928.44 6795.66,2825.95 6795.66,2822.14" style="fill:none;stroke:currentColor;stroke-width:8.04px;"/>
+        </g>
+        <g transform="matrix(1.036376,0,0,1.036376,-5964.890271,-2217.493398)">
+            <ellipse cx="6721.61" cy="2965.32" rx="6.181" ry="5.988" style="fill:none;stroke:currentColor;stroke-width:4.02px;"/>
+        </g>
+        <g transform="matrix(1.036376,0,0,1.036376,-5571.298763,-2223.172685)">
+            <path d="M6305.6,2830.7C6309.07,2844.14 6307.2,2847.5 6300.59,2854.12C6308.46,2852.42 6307.21,2853.19 6309.98,2853.95C6320.19,2856.73 6320.95,2863.79 6320.38,2861.93C6317.73,2853.3 6325.04,2842.88 6326.23,2841.64C6313.64,2841.89 6317.54,2840.26 6305.6,2830.7Z" style="fill:none;stroke:currentColor;stroke-width:4.02px;"/>
+        </g>
+        <g transform="matrix(1.036376,0,0,1.15616,-5571.298763,-2569.692832)">
+            <path d="M6351.33,2864.18C6357.41,2872.99 6352.42,2879.93 6348.08,2884.74C6353.91,2880.8 6358.4,2881.35 6361.8,2881.55C6367.24,2881.88 6371.19,2885.1 6371.19,2885.1C6371.19,2885.1 6363.99,2880.55 6375.34,2866.37C6374.19,2867.06 6361.1,2872.17 6351.33,2864.18Z" style="fill:none;stroke:currentColor;stroke-width:3.8px;"/>
+        </g>
+        <g transform="matrix(0.612984,0.98238,-1.220395,0.7615,623.328286,-7632.379592)">
+            <path d="M6351.33,2864.18C6357.41,2872.99 6352.42,2879.93 6348.08,2884.74C6353.91,2880.8 6358.4,2881.35 6361.8,2881.55C6367.24,2881.88 6371.19,2885.1 6371.19,2885.1C6371.19,2885.1 6363.99,2880.55 6375.34,2866.37C6374.19,2867.06 6361.1,2872.17 6351.33,2864.18Z" style="fill:none;stroke:currentColor;stroke-width:3.19px;"/>
+        </g>
+        <g transform="matrix(1.036376,0,0,1.036376,-5571.298763,-2223.172685)">
+            <path d="M6311.33,2887.57C6313.79,2893.2 6307.94,2900.6 6307.12,2901.33C6313.85,2898.17 6319.41,2905.63 6320.03,2906.35C6318.54,2898 6322.98,2893.52 6324,2892.99C6317.88,2893.15 6314.66,2888.96 6311.33,2887.57Z" style="fill:none;stroke:currentColor;stroke-width:4.02px;"/>
+        </g>
+    </g>
+</svg></div>
+        <h3>Individuelle Anfertigung</h3>
+      </div>
+      <div class="prozess-step reveal">
+        <div class="prozess-icon"><svg width="100%" height="100%" viewBox="0 0 195 169" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+    <g transform="matrix(1,0,0,1,-1321.010112,-687.513692)">
+        <g transform="matrix(1.11144,0,0,1.11144,-4855.536402,-2601.736662)">
+            <path d="M5596.15,3066.81C5591.49,3066.61 5568.62,3067.38 5564.78,3064.55C5561.45,3062.09 5563.55,3055.48 5562.46,3043.5C5561.53,3033.25 5561.07,3011.35 5561.01,3008.55C5560.54,2985.94 5570.54,2990.23 5601.74,2990.23C5616.22,2990.23 5616.12,2990.71 5630.67,2990.71C5660.59,2990.71 5660.47,2989.08 5690.44,2989.63C5711.71,2990.01 5727.35,2982.64 5728.16,3007.1C5728.56,3019.09 5727.65,3056.58 5727.32,3058.08C5726.32,3062.53 5726.64,3067.71 5693.33,3066.88C5692.91,3066.87 5693.01,3066.82 5692.61,3066.76" style="fill:none;stroke:currentColor;stroke-width:7.5px;"/>
+        </g>
+        <g transform="matrix(1.11144,0,0,1.11144,-4855.536402,-2601.736662)">
+            <path d="M5586.67,3065.05C5585.97,3058.86 5587.52,3043.98 5587.19,3034.48C5586.9,3026.29 5587.81,3023.15 5590.49,3023.21C5603.86,3023.49 5667.43,3023.52 5685.03,3023.27C5696.23,3023.11 5701.04,3023.02 5702.41,3029.38C5704.24,3037.9 5702.03,3054.1 5703.94,3065.55" style="fill:none;stroke:currentColor;stroke-width:3.75px;"/>
+        </g>
+        <g transform="matrix(1.11144,0,0,1.11144,-4855.536402,-2601.736662)">
+            <path d="M5603.49,3037.25C5603.33,3038.78 5674.45,3034.87 5687.09,3037.4" style="fill:none;stroke:currentColor;stroke-width:3.75px;"/>
+        </g>
+        <g transform="matrix(1.11144,0,0,1.11144,-4855.536402,-2601.736662)">
+            <path d="M5589.6,2987.91C5588.72,2973.84 5589.03,2967.28 5593.56,2965.9C5608.33,2961.41 5609.05,2966.75 5689.84,2963.24C5706.07,2962.53 5700.34,2970.71 5702.25,2986.74" style="fill:none;stroke:currentColor;stroke-width:7.5px;"/>
+        </g>
+        <g transform="matrix(1.11144,0,0,1.11144,-4855.536402,-2601.736662)">
+            <path d="M5603.14,3037.55C5597.23,3093.21 5584.31,3103.78 5607.36,3108.39C5613.16,3109.55 5681.17,3109.73 5685.27,3108.02C5696.53,3103.33 5691.98,3095.66 5690.3,3072.07C5690.11,3069.35 5688.54,3047.38 5686.99,3038.09" style="fill:none;stroke:currentColor;stroke-width:3.75px;"/>
+        </g>
+        <g transform="matrix(1.11144,0,0,1.11144,-4855.536402,-2601.736662)">
+            <path d="M5638.02,3045.54C5638.87,3057.97 5639.64,3061.9 5626.3,3067.19C5636.69,3069.79 5641.81,3066.75 5645.16,3083.08C5646.33,3080.62 5640.86,3063.25 5656.95,3060.84C5653.06,3061.25 5645.21,3066.31 5638.02,3045.54Z" style="fill:none;stroke:currentColor;stroke-width:3.99px;"/>
+        </g>
+        <g transform="matrix(1.11144,0,0,1.11144,-4830.398956,-2602.935683)">
+            <path d="M5683.47,3001.73C5683.47,3002.52 5683.45,3011.5 5683.93,3011.56C5684.72,3011.66 5684.71,3011.34 5693.83,3011.32C5693.02,3002.18 5692.94,3002.14 5692.25,3001.8C5691.94,3001.64 5686.98,3000.58 5684.05,3001.56" style="fill:none;stroke:currentColor;stroke-width:3.75px;"/>
+        </g>
+        <g transform="matrix(1.564763,0,0,-2.22676,-7398.585168,7422.954717)">
+            <path d="M5660.04,3003.22C5668.99,3002.88 5669.154,3003.06 5670.174,3003.12" style="fill:none;stroke:currentColor;stroke-width:4.33px;"/>
+        </g>
+        <g transform="matrix(1.11144,0,0,1.11144,-4855.536402,-2601.736662)">
+            <path d="M5611.74,3073.62C5614.76,3081.13 5607.23,3089.2 5606.04,3090.04C5616.38,3088.64 5615.7,3090.9 5619.63,3096.98C5619.53,3093.81 5618.56,3088.36 5627.04,3082.65C5626.24,3082.55 5624.67,3085.28 5616.81,3079.31C5614.86,3077.83 5613.13,3075.62 5611.74,3073.62Z" style="fill:none;stroke:currentColor;stroke-width:3.99px;"/>
+        </g>
+        <g transform="matrix(1.11144,0,0,1.11144,-4855.536402,-2601.736662)">
+            <path d="M5667.39,3074.12C5667.11,3081.51 5668.37,3082.82 5660.18,3085.44C5671.46,3083.94 5670.56,3089.25 5671.45,3093.12C5670.71,3085.73 5674.37,3082.21 5678.44,3081.9C5668.52,3080.87 5670.95,3077.39 5667.39,3074.12Z" style="fill:none;stroke:currentColor;stroke-width:3.99px;"/>
+        </g>
+    </g>
+</svg></div>
+        <h3>Datei erhalten &amp; ausdrucken</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ÜBER MICH -->
+<section id="ueber">
+  <div class="section-inner">
+    <span class="section-label reveal">Über mich</span>
+    <div class="ueber-layout">
+      <div class="ueber-avatar reveal">🧠</div>
+      <div class="ueber-text reveal">
+        <div class="ueber-name">Annabelle Reuter</div>
+        <div class="ueber-role">Gründerin · Visuell denkend · Geschichtenerzählerin</div>
+        <p class="ueber-bio">
+          <strong>Hallo, ich bin Annabelle Reuter.</strong>
+          <br><br>
+          Ursprünglich komme ich aus dem Sozialbereich, wo ich gelernt habe, wie wertvoll jeder Lebensweg ist und wie wichtig kleine und große Geschichten im Leben von Menschen sind. Später habe ich im Grafikbereich gearbeitet und dort meine Leidenschaft für visuelle Kommunikation entdeckt.
+          <br><br>
+          Heute gestalte ich minimalistische Illustrationen, die besondere Momente sichtbar machen und ihnen einen Platz im Alltag geben – an der Wand, nicht in der Schublade. Mein Fokus liegt auf dem Wesentlichen, sodass individuelle Einzelstücke entstehen, die genau deine Geschichte erzählen.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-inner">
+    <span class="section-label reveal">Häufige Fragen</span>
+    <div class="prozess-icon" style="width:56px;height:56px;margin:0 0 8px;"><span class="section-label" style="display:block;margin:0;padding:0;"></span><svg width="100%" height="100%" viewBox="0 0 244 264" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;">
+    <g transform="matrix(1,0,0,1,-1713.865641,-49.409424)">
+        <g transform="matrix(1,0,0,1,-177.165354,0)">
+            <g transform="matrix(6.663542,0,0,6.663542,-115.526615,-627.05108)">
+                <path d="M320.617,105.287C317.491,102.757 315.711,102.096 313.721,102.144C312.026,102.186 309.992,102.681 308.848,103.643C303.257,108.35 306.961,112.034 306.961,112.034C306.961,112.034 300.794,115.935 301.878,120.54C303.16,125.988 309.732,129.066 313.13,125.976C313.366,126.298 318.215,131.184 324.421,126.357C331.074,130.079 334.414,126.34 335.64,124.613C337.804,121.564 338.626,112.482 329.737,112.114C331.319,108.952 326.816,102.229 320.617,105.287Z" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:1.75px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-177.165354,0)">
+            <g transform="matrix(0.992039,-0.38975,-0.464686,-1.182776,2127.420873,5085.847988)">
+                <path d="M1536.409,3577.796C1529.619,3564.056 1502.121,3582.569 1509.1,3591.81C1523.473,3610.842 1541.339,3587.756 1536.409,3577.796Z" style="fill:none;stroke:currentColor;stroke-width:4.97px;stroke-linejoin:miter;stroke-miterlimit:1;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-177.165354,0)">
+            <g transform="matrix(-0.445482,0.538733,-0.792171,-0.655052,5480.024277,1808.402241)">
+                <path d="M1536.409,3577.796C1529.619,3564.056 1508.616,3576.183 1515.595,3585.424C1529.968,3604.456 1541.339,3587.756 1536.409,3577.796Z" style="fill:none;stroke:currentColor;stroke-width:6.63px;stroke-linejoin:miter;stroke-miterlimit:1;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-177.165354,0)">
+            <g transform="matrix(-0.117088,-0.627385,0.62738,-0.117087,-123.335816,1679.864385)">
+                <path d="M1536.409,3577.796C1529.619,3564.056 1510.658,3574.949 1515.595,3585.424C1521.566,3598.093 1541.339,3587.756 1536.409,3577.796Z" style="fill:none;stroke:currentColor;stroke-width:9.13px;stroke-linejoin:miter;stroke-miterlimit:1;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-177.165354,0)">
+            <g transform="matrix(0.68674,0,0,0.68674,967.954475,-2274.123148)">
+                <path d="M1487.7,3478.79C1496.78,3451.89 1551.37,3468.89 1534.14,3489.08C1521.97,3503.35 1472.19,3525.02 1492.68,3543.56C1510.53,3559.7 1533.08,3546.93 1539.48,3543.34" style="fill:none;stroke:currentColor;stroke-width:8.49px;stroke-linejoin:miter;stroke-miterlimit:1;"/>
+            </g>
+        </g>
+        <g transform="matrix(0.68674,0,0,0.68674,788.789121,-2276.200922)">
+            <path d="M1525.32,3582.53C1518.53,3568.79 1501.67,3582.9 1509.1,3591.81C1516.08,3600.19 1530.25,3592.49 1525.32,3582.53Z" style="fill:none;stroke:currentColor;stroke-width:8.49px;stroke-linejoin:miter;stroke-miterlimit:1;"/>
+        </g>
+    </g>
+</svg></div>
+    <h2 class="section-h2 reveal">FAQ</h2>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <div class="faq-icon"><svg width="100%" height="100%" viewBox="0 0 210 257" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+    <g transform="matrix(1,0,0,1,-82.980097,-647.691353)">
+        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
+            <path d="M6039.62,2704.33C6040.63,2704.62 6080.38,2705.26 6083.93,2705.32C6097.87,2705.55 6097.81,2705.59 6111.7,2704.49" style="fill:none;stroke:currentColor;stroke-width:3.38px;"/>
+        </g>
+        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
+            <path d="M6040.41,2717.76C6058.2,2717.23 6058.08,2716.53 6075.97,2716.99" style="fill:none;stroke:currentColor;stroke-width:3.38px;"/>
+        </g>
+        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
+            <path d="M6090.55,2716.82C6101.05,2716.79 6100.93,2716.06 6111.43,2716.43" style="fill:none;stroke:currentColor;stroke-width:3.38px;"/>
+        </g>
+        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
+            <path d="M6040.14,2731.54C6042.65,2731.11 6065.64,2730.8 6080.5,2731.06" style="fill:none;stroke:currentColor;stroke-width:3.38px;"/>
+        </g>
+        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
+            <path d="M6044.95,2754.21C6047.63,2757.01 6049.1,2758.7 6051.94,2761.33C6054.85,2757.77 6058.35,2749.97 6065.3,2741.25" style="fill:none;stroke:currentColor;stroke-width:3.38px;"/>
+        </g>
+        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3931.165522)">
+            <path d="M6055.46,2743.86C6047.02,2744.29 6047.68,2743.48 6039.3,2743.76C6039.54,2751.12 6037.46,2752.12 6039.31,2769.95C6051.67,2770.47 6051.62,2769.97 6064.01,2770.41C6064.99,2761.07 6064.64,2761.12 6065.13,2751.8" style="fill:none;stroke:currentColor;stroke-width:3.38px;"/>
+        </g>
+        <g transform="matrix(2.071475,0.028114,0,2.053008,-12422.2033,-5029.52017)">
+            <path d="M6118.74,2751.07C6109.74,2747.06 6084.63,2743.49 6081.22,2770.8C6075.83,2813.88 6134.23,2814 6135.05,2773.85C6135.12,2770.38 6134.2,2757.97 6118.74,2751.07Z" style="fill:none;stroke:currentColor;stroke-width:5.61px;stroke-linejoin:miter;"/>
+        </g>
+        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3940.165522)">
+            <path d="M6128.24,2749.39C6128.22,2709.4 6129.23,2710.05 6128.8,2696.51C6128.66,2691.94 6128.01,2690.3 6112.89,2670.25C6108.64,2670.43 6039.6,2665.34 6032.2,2670.39C6030.7,2671.41 6029.59,2675.4 6029.22,2682.35C6028.51,2695.37 6029.13,2714.39 6027.9,2779.51C6027.48,2802.25 6031.89,2801.94 6055.51,2801.94C6062.04,2801.94 6080.12,2802.02 6084.38,2801.17" style="fill:none;stroke:currentColor;stroke-width:6.77px;"/>
+        </g>
+        <g transform="matrix(1.721052,0,0,1.721052,-10287.137131,-3940.165522)">
+            <path d="M6109.43,2670.76C6108.48,2691.28 6108.14,2692.19 6108.14,2692.19C6108.14,2692.19 6113.56,2694.25 6127.89,2693.63" style="fill:none;stroke:currentColor;stroke-width:6.77px;"/>
+        </g>
+        <g transform="matrix(1.555798,0,0,1.494661,-9183.31429,-3467.680995)">
+            <path d="M6028.47,2865.05C6031.91,2864.97 6031.87,2865.05 6035.32,2864.81C6035.32,2866.46 6039.5,2890.36 6039.69,2890.52C6041.17,2891.79 6061.25,2890.28 6065.88,2890.76" style="fill:none;stroke:currentColor;stroke-width:3.82px;"/>
+        </g>
+        <g transform="matrix(1.555798,0,0,1.494661,-9183.31429,-3467.680995)">
+            <path d="M6037.94,2869.56L6054.05,2869.56C6062.02,2869.56 6060.49,2869.42 6068.42,2869.42C6066.71,2873.62 6065.99,2873.06 6063.8,2883.04C6057.43,2882.65 6058.69,2883.01 6052.35,2883.12C6048.97,2883.18 6043.86,2882.97 6039.53,2883.16" style="fill:none;stroke:currentColor;stroke-width:3.82px;"/>
+        </g>
+        <g transform="matrix(1.558421,0,0,1.494661,-9200.220183,-3469.033742)">
+            <ellipse cx="6045.76" cy="2901.72" rx="3.861" ry="3.912" style="fill:none;stroke:currentColor;stroke-width:3.82px;"/>
+        </g>
+        <g transform="matrix(1.434373,0,0,1.402974,-8428.003095,-3202.778397)">
+            <ellipse cx="6045.76" cy="2901.72" rx="3.861" ry="3.912" style="fill:none;stroke:currentColor;stroke-width:4.11px;"/>
+        </g>
+    </g>
+</svg></div>
+        <div class="faq-question">Wie funktioniert die Bestellung?</div>
+        <div class="faq-answer">Du wählst dein Wunschthema aus und füllst mein Bestellformular aus. Dort kannst du aus verschiedenen Symbolen und Ereignissen deine Favoriten wählen.</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-icon"><svg width="100%" height="100%" viewBox="0 0 182 232" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+    <g transform="matrix(1,0,0,1,-920.496367,-644.972837)">
+        <g transform="matrix(1.036376,0,0,1.036376,-5961.879599,-2216.822552)">
+            <path d="M6780.91,2780.72C6780.97,2789.11 6781.11,2789.04 6781.11,2797.38C6781.94,2797.44 6784.99,2797.65 6791.46,2796.99" style="fill:none;stroke:currentColor;stroke-width:5.62px;"/>
+        </g>
+        <g transform="matrix(1.036376,0,0,1.036376,-5961.879599,-2216.822552)">
+            <path d="M6750.48,2800.56C6721.07,2799.89 6660.94,2800.08 6660.94,2800.08C6660.94,2800.08 6661.1,2876.33 6659.12,2950.84C6711.43,2950.64 6711.75,2949.35 6723.29,2949.89C6754.86,2951.38 6749.49,2949.5 6781.18,2951.08C6779.02,2940.55 6781.7,2917.02 6780.98,2880.4C6780.87,2875.09 6780.73,2835.15 6781.43,2826" style="fill:none;stroke:currentColor;stroke-width:5.62px;"/>
+        </g>
+        <g transform="matrix(1.036376,0,0,1.036376,-5897.739334,-2195.954864)">
+            <path d="M6749.39,2777.74C6753.49,2734.54 6688.74,2735 6689.5,2775.54C6690.18,2811.01 6745.81,2815.46 6749.39,2777.74Z" style="fill:none;stroke:currentColor;stroke-width:11.24px;"/>
+        </g>
+        <g transform="matrix(1.036376,0,0,1.036376,-5961.879599,-2216.822552)">
+            <path d="M6752.05,2781.49C6745.71,2779.98 6730.8,2781.45 6727.16,2781.32C6722.13,2781.14 6700.47,2779.95 6662.3,2780.71C6659.8,2780.76 6647,2777.69 6646.75,2793.98C6646.37,2818.75 6647.14,2822.53 6645.24,2936.29C6644.51,2980 6642.36,2979.17 6665.11,2980.43C6670.66,2980.74 6675.15,2979.31 6739.2,2980.95C6759.38,2981.47 6758.22,2980.81 6778.5,2980.73C6792.44,2980.67 6795.44,2986.84 6794.92,2954C6794.51,2928.44 6795.66,2825.95 6795.66,2822.14" style="fill:none;stroke:currentColor;stroke-width:11.24px;"/>
+        </g>
+        <g transform="matrix(1.036376,0,0,1.036376,-5964.890271,-2217.493398)">
+            <ellipse cx="6721.61" cy="2965.32" rx="6.181" ry="5.988" style="fill:none;stroke:currentColor;stroke-width:5.62px;"/>
+        </g>
+        <g transform="matrix(1.036376,0,0,1.036376,-5571.298763,-2223.172685)">
+            <path d="M6305.6,2830.7C6309.07,2844.14 6307.2,2847.5 6300.59,2854.12C6308.46,2852.42 6307.21,2853.19 6309.98,2853.95C6320.19,2856.73 6320.95,2863.79 6320.38,2861.93C6317.73,2853.3 6325.04,2842.88 6326.23,2841.64C6313.64,2841.89 6317.54,2840.26 6305.6,2830.7Z" style="fill:none;stroke:currentColor;stroke-width:5.62px;"/>
+        </g>
+        <g transform="matrix(1.036376,0,0,1.15616,-5571.298763,-2569.692832)">
+            <path d="M6351.33,2864.18C6357.41,2872.99 6352.42,2879.93 6348.08,2884.74C6353.91,2880.8 6358.4,2881.35 6361.8,2881.55C6367.24,2881.88 6371.19,2885.1 6371.19,2885.1C6371.19,2885.1 6363.99,2880.55 6375.34,2866.37C6374.19,2867.06 6361.1,2872.17 6351.33,2864.18Z" style="fill:none;stroke:currentColor;stroke-width:5.31px;"/>
+        </g>
+        <g transform="matrix(0.612984,0.98238,-1.220395,0.7615,623.328286,-7632.379592)">
+            <path d="M6351.33,2864.18C6357.41,2872.99 6352.42,2879.93 6348.08,2884.74C6353.91,2880.8 6358.4,2881.35 6361.8,2881.55C6367.24,2881.88 6371.19,2885.1 6371.19,2885.1C6371.19,2885.1 6363.99,2880.55 6375.34,2866.37C6374.19,2867.06 6361.1,2872.17 6351.33,2864.18Z" style="fill:none;stroke:currentColor;stroke-width:4.46px;"/>
+        </g>
+        <g transform="matrix(1.036376,0,0,1.036376,-5571.298763,-2223.172685)">
+            <path d="M6311.33,2887.57C6313.79,2893.2 6307.94,2900.6 6307.12,2901.33C6313.85,2898.17 6319.41,2905.63 6320.03,2906.35C6318.54,2898 6322.98,2893.52 6324,2892.99C6317.88,2893.15 6314.66,2888.96 6311.33,2887.57Z" style="fill:none;stroke:currentColor;stroke-width:5.62px;"/>
+        </g>
+    </g>
+</svg></div>
+        <div class="faq-question">Wie bekomme ich mein Poster?</div>
+        <div class="faq-answer">Nach der Gestaltung erhältst du einen Link zum digitalen Download. Du bekommst eine hochwertige Datei, die du selbst ausdrucken kannst.</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-icon"><svg width="100%" height="100%" viewBox="0 0 206 142" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;">
+    <g transform="matrix(1,0,0,1,-484.681376,-697.395247)">
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
+                <path d="M6044.17,3033.14C6043.77,3048.68 6043.77,3048.67 6043.77,3048.67L6070.98,3048.79L6071.49,3027.35L6044.57,3026.77C6044.57,3026.77 6043.83,3030.08 6044.17,3033.14Z" style="fill:none;stroke:currentColor;stroke-width:3.36px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
+                <path d="M6045.89,3035.39C6048.7,3035.84 6049.4,3035.45 6052.28,3035.67" style="fill:none;stroke:currentColor;stroke-width:3.36px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
+                <path d="M6045.35,3042.57C6045.83,3042.57 6049.05,3042.59 6051.4,3042.48" style="fill:none;stroke:currentColor;stroke-width:3.36px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
+                <path d="M6053.6,3027.33C6053.05,3046.29 6053.01,3046.29 6053.07,3047.29" style="fill:none;stroke:currentColor;stroke-width:3.36px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
+                <path d="M6060.31,3047.39C6060.75,3042.52 6060.67,3041.26 6060.78,3036.22C6065.77,3036.37 6065.28,3035.68 6070.25,3036.44" style="fill:none;stroke:currentColor;stroke-width:3.36px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <g transform="matrix(0.833508,0,0,0.833508,1006.816556,505.868614)">
+                <path d="M6061.71,3043.31C6068.47,3042.77 6068.35,3043.18 6070.04,3043.25" style="fill:none;stroke:currentColor;stroke-width:3.36px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <g transform="matrix(1,0,0,1,5.192055,0)">
+                <path d="M6081.78,3033.7C6102.68,3033.88 6102.57,3032.92 6123.54,3033.32" style="fill:none;stroke:currentColor;stroke-width:6.73px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <g transform="matrix(1,0,0,1,5.192055,0)">
+                <path d="M6082.658,3046.941C6089.278,3047.311 6094.773,3045.56 6113.293,3047.41" style="fill:none;stroke:currentColor;stroke-width:6.73px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <path d="M6088,3072.46C6089.28,3073.77 6129.06,3073.37 6132.63,3073.33" style="fill:none;stroke:currentColor;stroke-width:6.73px;"/>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <path d="M6074.9,3015.33C6035.05,3013.64 6036.47,3016.83 6036.14,3022.12C6034.616,3046.411 6033.11,3064.573 6034.385,3075.923C6035.235,3083.489 6037.321,3088.028 6041.46,3089.34C6049.9,3092.01 6084.15,3091.51 6107.85,3091.51C6143.35,3091.51 6146.83,3090.09 6147.43,3079.64C6147.68,3075.25 6146.78,3058.9 6145.59,3021.73C6145.55,3020.4 6144.32,3016.67 6139.46,3016.06C6123.53,3014.06 6079.63,3015.57 6074.9,3015.33Z" style="fill:none;stroke:currentColor;stroke-width:6.73px;"/>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <path d="M6075.29,3063.97C6071.36,3059.5 6059.44,3060.1 6058.4,3068.94C6056.83,3082.31 6069.14,3080.86 6073.01,3079.12C6079.16,3076.37 6078.46,3066.79 6075.29,3063.97Z" style="fill:none;stroke:currentColor;stroke-width:6.73px;"/>
+        </g>
+        <g transform="matrix(1.733418,0,0,1.733418,-9970.431645,-4524.476901)">
+            <path d="M6060.49,3063.48C6056.83,3060.24 6045.2,3059.29 6044.52,3071.71C6044.33,3075.11 6046.45,3078.44 6049.37,3079.48C6055.03,3081.5 6059.68,3078.21 6060.39,3077.68" style="fill:none;stroke:currentColor;stroke-width:6.73px;"/>
+        </g>
+    </g>
+</svg></div>
+        <div class="faq-question">Wie kann ich bezahlen?</div>
+        <div class="faq-answer">Sobald du dein Formular abgeschickt hast, erhältst du von mir alle Informationen zur Bezahlung. Nach Zahlungseingang beginne ich mit der visuellen Umsetzung.</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question">Kann ich nachträglich noch etwas ändern?</div>
+        <div class="faq-answer">Durch das Bestellformular ist der Ablauf sehr direkt. Bitte prüfe deine Angaben im Formular daher genau, bevor du es abschickst, um Korrekturschleifen zu vermeiden.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- KONTAKT -->
+<section id="kontakt">
+  <div class="section-inner">
+    <span class="section-label">Lass uns verbinden</span>
+    <div class="kontakt-icon"><svg width="100%" height="100%" viewBox="0 0 263 216" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;">
+    <g transform="matrix(1,0,0,1,-1282.166843,-64.760898)">
+        <g transform="matrix(1,0,0,1,-530.393701,0)">
+            <g transform="matrix(-4.463043,0,0,4.869498,2071.408656,-55.432152)">
+                <path d="M48.829,59.661C48.829,59.661 48.098,61.06 44.643,57.351C42.717,55.283 42.519,53.141 42.519,53.141C42.519,53.141 22.389,53.907 21.504,48.205C20.945,44.603 20.451,29.877 22.053,27.638C23.23,25.994 25.785,25.413 34.596,25.57C42.796,25.716 52.138,24.86 54.238,28C57.126,32.32 55.959,37.632 56.429,42.543C56.881,47.27 58.123,52.143 55.011,52.734C49.984,53.69 48.312,53.35 48.312,53.35L48.829,59.661Z" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:2.52px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-530.393701,0)">
+            <g transform="matrix(4.463043,0,0,4.869498,1828.483272,-12.116732)">
+                <path d="M33.924,25.57C42.124,25.716 50.569,24.86 52.669,28C54.274,30.4 54.26,37.535 54.194,43.324C54.142,47.955 54.378,51.65 52.995,51.913C47.967,52.868 46.296,52.528 46.296,52.528L46.812,58.839C46.812,58.839 46.082,60.239 42.627,56.53C40.7,54.461 40.503,52.32 40.503,52.32C40.503,52.32 24.679,52.338 22.176,50.67C20.789,49.745 21.21,45.232 21.157,44.315" style="fill:none;fill-rule:nonzero;stroke:currentColor;stroke-width:2.52px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-530.393701,0)">
+            <g transform="matrix(0.811579,0,0,0.844923,634.5103,-2876.820623)">
+                <path d="M1525.32,3582.53C1518.53,3568.79 1501.67,3582.9 1509.1,3591.81C1516.08,3600.19 1530.25,3592.49 1525.32,3582.53Z" style="fill:none;stroke:currentColor;stroke-width:6.15px;stroke-linejoin:miter;stroke-miterlimit:1;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-530.393701,0)">
+            <g transform="matrix(0.811579,0,0,0.844923,665.37173,-2875.92814)">
+                <path d="M1525.32,3582.53C1518.53,3568.79 1501.67,3582.9 1509.1,3591.81C1516.08,3600.19 1530.25,3592.49 1525.32,3582.53Z" style="fill:none;stroke:currentColor;stroke-width:6.15px;stroke-linejoin:miter;stroke-miterlimit:1;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-530.393701,0)">
+            <g transform="matrix(0.811579,0,0,0.844923,697.090422,-2875.92814)">
+                <path d="M1525.32,3582.53C1518.53,3568.79 1501.67,3582.9 1509.1,3591.81C1516.08,3600.19 1530.25,3592.49 1525.32,3582.53Z" style="fill:none;stroke:currentColor;stroke-width:6.15px;stroke-linejoin:miter;stroke-miterlimit:1;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-530.393701,0)">
+            <g transform="matrix(0.811579,0,0,0.844923,732.5103,-2833.820623)">
+                <path d="M1525.32,3582.53C1521.598,3574.999 1513.619,3580.569 1509.505,3584.33C1506.113,3587.43 1505.743,3587.784 1509.1,3591.81C1516.08,3600.19 1530.25,3592.49 1525.32,3582.53Z" style="fill:none;stroke:currentColor;stroke-width:6.15px;stroke-linejoin:miter;stroke-miterlimit:1;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-530.393701,0)">
+            <g transform="matrix(0.811579,0,0,0.844923,763.37173,-2832.92814)">
+                <path d="M1525.32,3582.53C1518.53,3568.79 1501.67,3582.9 1509.1,3591.81C1516.08,3600.19 1530.25,3592.49 1525.32,3582.53Z" style="fill:none;stroke:currentColor;stroke-width:6.15px;stroke-linejoin:miter;stroke-miterlimit:1;"/>
+            </g>
+        </g>
+        <g transform="matrix(1,0,0,1,-530.393701,0)">
+            <g transform="matrix(0.811579,0,0,0.844923,795.090422,-2832.92814)">
+                <path d="M1525.32,3582.53C1518.53,3568.79 1501.67,3582.9 1509.1,3591.81C1516.08,3600.19 1530.25,3592.49 1525.32,3582.53Z" style="fill:none;stroke:currentColor;stroke-width:6.15px;stroke-linejoin:miter;stroke-miterlimit:1;"/>
+            </g>
+        </g>
+    </g>
+</svg></div>
+    <h2 class="section-h2">Dein Hirn spaziert?<br>Meins auch.</h2>
+    <p class="section-text" style="margin: 0 auto;">Folg mir auf Instagram, schreib mir eine Nachricht — oder schau einfach mal rein.</p>
+    <div class="social-links">
+      <a href="https://instagram.com/hirnspaziert" class="social-link">📷 @hirnspaziert</a>
+      <a href="https://etsy.com" class="social-link">🛒 Etsy Shop</a>
+      <a href="/cdn-cgi/l/email-protection#a8c0c9c4c4c7e8c0c1dac6dbd8c9d2c1cddadc86c9dc" class="social-link">✉️ <span class="__cf_email__" data-cfemail="523a333e3e3d123a3b203c212233283b3720267c3326">[email&#160;protected]</span></a>
+    </div>
+    <div class="footer-note">
+      © 2026 Hirnspaziert · Österreich · Alle digitalen Produkte zum Download
+      &nbsp;·&nbsp; <a href="#impressum">Impressum</a>
+    </div>
+  </div>
+</section>
+
+<!-- IMPRESSUM -->
+<section id="impressum">
+  <div class="section-inner">
+    <span class="section-label">Impressum</span>
+    <h2 class="section-h2" style="font-size: clamp(24px, 3vw, 32px);">Angaben gemäß § 5 ECG</h2>
+    <div class="impressum-grid">
+      <div class="impressum-block"><h3>Unternehmerin</h3><p>[Vor- und Nachname]<br>[Straße]<br>[PLZ Ort]<br>Österreich</p></div>
+      <div class="impressum-block"><h3>Kontakt</h3><p>E-Mail: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3850595454577850514a564b485942515d4a4c16594c">[email&#160;protected]</a></p></div>
+      <div class="impressum-block"><h3>Unternehmensgegenstand</h3><p>Erstellung und Verkauf digitaler Produkte</p></div>
+      <div class="impressum-block"><h3>UID / Steuernummer</h3><p>[UID-Nummer, falls vorhanden]</p></div>
+    </div>
+  </div>
+</section>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  const reveals = document.querySelectorAll(".reveal");
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add("visible"), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  const nav = document.getElementById("nav");
+  window.addEventListener("scroll", () => {
+    nav.classList.toggle("scrolled", window.scrollY > 40);
+  });
+
+  let openDetail = null;
+  function toggleDetail(id) {
+    const detail = document.getElementById("detail-" + id);
+    if (!detail) return;
+    if (openDetail && openDetail !== detail) {
+      openDetail.classList.remove("open");
+    }
+    detail.classList.toggle("open");
+    openDetail = detail.classList.contains("open") ? detail : null;
+    if (detail.classList.contains("open")) {
+      detail.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }
+</script>
+</body>
+</html>
